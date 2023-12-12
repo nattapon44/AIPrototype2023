@@ -11,7 +11,7 @@ git add firstpy.py
 git commit -m "test run .py"
 git push
 nattapon44
-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
+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
 
 ทำใน vm
 git pull
