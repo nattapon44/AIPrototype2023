@@ -24,6 +24,6 @@ git status คือการดูว่าไฟล์ในถูกแก้
 git add README.md คือการเลือกไฟล์เพื่อขึ้นบน git
 git commit -m "add my name" คือการเขียนคำอธิบายว่าทำอะไรบ้าง
 git push คือการอัพเดตขึ้น github
-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 password for command line github
+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 password for command line github
 
 ln -s /mnt/c/ubuntu /home/nattapon
