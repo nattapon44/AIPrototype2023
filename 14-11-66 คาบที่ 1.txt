@@ -18,8 +18,6 @@ cp ./file1 ./testfolder1_1/testfolder1_1_1/.  ก้อปไฟล์ ถ้า
 mv คือคำสั่งย้ายและเปลี่ยนชื่อไฟล์
 ~/testfoder2/. เครื้่องหมาย ~ กลับไปจุดเริ่มต้น
 
-bashlogin ubuntu on window
-
 cp fileX ~/testfolder1/testfolder1_1/.
 fileX -> folder1_1
 
