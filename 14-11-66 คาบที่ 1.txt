@@ -1,0 +1,30 @@
+terminal คือคัวเชื่อมต่อกับคนกับคอม
+คำสั่ง ต้นทาง ปลายทาง
+คำสั่ง ubuntu
+ls  ลิสต์ไฟล์ใน folder
+pwd เช็คว่าอยู่ folder ไหน
+mkdir (filesname) สร้าง folder
+cd คือการเปลี่ยน directory 
+cd .. คือการกลับหลัง 1 step
+cd ../.. ย้อนกลับ 2 step
+cd เฉยๆคือการกลับไป folder home
+rm -R (filesname) ลบ folder
+vi เข้าไปแล้วกด i ก่อนถึงแก้ไขได้ กด esc เพื่อเป็นโหมดควบคุม
+กด shift เพื่อให้ขึ้นด้านล่างให่พิมพ์
+:wq คือการออกจาก vi file
+ls -ltr long time reverse
+cp ./file1 ./testfolder1_1/testfolder1_1_1/.  ก้อปไฟล์ ถ้าเป็น . คือการก้อปมาวางใช้ชื่อเดิม สามารถก้อปมาวางใช้ชื่อใหม่ให้เปล่ียนจาก . เป็นชื่อไฟล์อันใหม่
+-R คือเอาไฟล์ใน folder ไปด้วย ไม่ว่าจะเป็นการลบfileหรือลบfolder
+mv คือคำสั่งย้ายและเปลี่ยนชื่อไฟล์
+~/testfoder2/. เครื้่องหมาย ~ กลับไปจุดเริ่มต้น
+
+bashlogin ubuntu on window
+
+cp fileX ~/testfolder1/testfolder1_1/.
+fileX -> folder1_1
+
+การบ้าน
+copy fileX จาก testfolder2 ไป testfolder1_1_2 เป็นชื่อ fileY
+
+login nattapon44
+nattapon44
