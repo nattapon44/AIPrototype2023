@@ -28,9 +28,9 @@ def multiplyby9(inputV):
 
 if __name__ == "__main__":
     input_v = parse_input()
-    print(f'the input num is {input_v.XX}')
+    print(f'the input XX is {input_v.XX}')
     print(f'the input num is {input_v.num}')
     print('we are in the main function')
-    multiplyby9(20) # แก้ให้เป็นเอาตัวเลขของ input ไปคูณ
+    multiplyby9(input_v.num) 
     printHello()
     
