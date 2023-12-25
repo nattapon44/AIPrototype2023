@@ -18,3 +18,5 @@ process_output = subprocess.Popen(["python","firstpy.py","--num","0"],stdout=sub
 out, err = process_output.communicate()
 print(out.decode('utf-8'))
 print(len(out.decode('utf-8')))
+
+#Hw เขียน subprocess sum output ที่งหมดของ 3 อันข้างบน (ตัวเลขก่อน Hello World!)
