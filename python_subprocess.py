@@ -1,7 +1,6 @@
-from argparse import _SubParsersAction
-import subprocess #สำำหรับรัน terminal command
+import subprocess #สำหรับรัน terminal command
 
 if __name__ == "__main__":
     #basic terminal command
     subprocess.run(["ls","-ltr"])
-    subprocess.run(["rm","-r","/home/nattapon/testfolder1"])
+    subprocess.run(["python","firstpy.py"])
