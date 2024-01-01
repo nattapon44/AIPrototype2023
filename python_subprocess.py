@@ -19,34 +19,22 @@ out, err = process_output.communicate()
 print(out.decode('utf-8'))
 print(len(out.decode('utf-8')))
 
+#Hw เขียน subprocess sum output ที่งหมดของ 3 อันข้างบน (ตัวเลขก่อน Hello World!)
+
 total_sum = 0
-sum_value1 = int(subprocess.Popen(["python","firstpy.py","--num","100","--XX","90"].split('\n')[3]))  # ดึงค่าที่อยู่บรรทัดที่ 4
+
+output1 = subprocess.check_output(["python", "firstpy.py", "--num", "100", "--XX", "90"]).decode('utf-8')
+sum_value1 = int(output1.split('\n')[3])  # ดึงค่าที่อยู่บรรทัดที่ 4
 total_sum += sum_value1
-sum_value2 = int(subprocess.Popen(["python","firstpy.py","--num","-10","--XX","-90"].split('\n')[3])) # ดึงค่าที่อยู่บรรทัดที่ 4
+
+output2 = subprocess.check_output(["python", "firstpy.py", "--num", "-10", "--XX", "-90"]).decode('utf-8')
+sum_value2 = int(output2.split('\n')[3])  # ดึงค่าที่อยู่บรรทัดที่ 4
 total_sum += sum_value2
-sum_value3 = int(subprocess.Popen(["python","firstpy.py","--num","0"].split('\n')[3]))  # ดึงค่าที่อยู่บรรทัดที่ 4
+
+output3 = subprocess.check_output(["python", "firstpy.py", "--num", "0"]).decode('utf-8')
+sum_value3 = int(output3.split('\n')[3])  # ดึงค่าที่อยู่บรรทัดที่ 4
 total_sum += sum_value3
 
 print("Subprocess sum output")
 print(total_sum)
-
-# output1 = subprocess.check_output(["python", "firstpy.py", "--num", "100", "--XX", "90"]).decode('utf-8')
-# ดึงค่าที่ต้องการบวก
-#sum_value1 = int(output1.split('\n')[3])  # ดึงค่าที่อยู่บรรทัดที่ 4
-#total_sum += sum_value1
-
-# output2 = subprocess.check_output(["python", "firstpy.py", "--num", "-10", "--XX", "-90"]).decode('utf-8')
-# ดึงค่าที่ต้องการบวก
-#sum_value2 = int(output2.split('\n')[3])  # ดึงค่าที่อยู่บรรทัดที่ 4
-#total_sum += sum_value2
-
-# output3 = subprocess.check_output(["python", "firstpy.py", "--num", "0"]).decode('utf-8')
-# ดึงค่าที่ต้องการบวก
-#sum_value3 = int(output3.split('\n')[3])  # ดึงค่าที่อยู่บรรทัดที่ 4
-#total_sum += sum_value3
-
-#print("Subprocess sum output")
-#print(total_sum)
-
-#Hw เขียน subprocess sum output ที่งหมดของ 3 อันข้างบน (ตัวเลขก่อน Hello World!)
 
