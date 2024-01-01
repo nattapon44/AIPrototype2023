@@ -3,13 +3,16 @@ import subprocess #สำหรับรัน terminal command
 if __name__ == "__main__":
     #basic terminal command
     print("first run num=100 XX=90")
-    output1 = subprocess.run(["python","firstpy.py","--num","100","--XX","90"]).decode('utf-8')
+    output1 = subprocess.run(["python","firstpy.py","--num","100","--XX","90"])
+    print(output1)
     print("------------------------------------------------------------")
     print("second run num=-10 XX=-90")
-    output2 = subprocess.run(["python","firstpy.py","--num","-10","--XX","-90"]).decode('utf-8')
+    output2 = subprocess.run(["python","firstpy.py","--num","-10","--XX","-90"])
+    print(output2)
     print("------------------------------------------------------------")
     print("third run num=0")
-    output3 = subprocess.run(["python","firstpy.py","--num","0"]).decode('utf-8')
+    output3 = subprocess.run(["python","firstpy.py","--num","0"])
+    print(output3)
     print("------------------------------------------------------------")
 
 
