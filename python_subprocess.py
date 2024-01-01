@@ -19,9 +19,9 @@ out, err = process_output.communicate()
 print(out.decode('utf-8'))
 print(len(out.decode('utf-8')))
 
-output1 = subprocess.Popen(["python","firstpy.py","--num","100","--XX","90"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).decode('utf-8')
-output2 = subprocess.Popen(["python","firstpy.py","--num","-10","--XX","-90"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).decode('utf-8')
-output3 = subprocess.Popen(["python","firstpy.py","--num","0"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).decode('utf-8')
+output1 = subprocess.check_output(["python", "firstpy.py", "--num", "100", "--XX", "90"]).decode('utf-8')
+output2 = subprocess.check_output(["python", "firstpy.py", "--num", "-10", "--XX", "-90"]).decode('utf-8')
+output3 = subprocess.check_output(["python", "firstpy.py", "--num", "0"]).decode('utf-8')
 sum_output = output1 + output2 + output3
 print("Subprocess sum output")
 print(sum_output)
