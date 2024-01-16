@@ -11,7 +11,7 @@ def helloworld():
 def hellonattapon():
     return "Hello, Nattapon!"
 
-@app.route("/home", methods=['POST'])
+@app.route("/home", methods=['POST','GET'])
 def homefn():
     print('we are in home')
     namein = request.form.get('fname')
