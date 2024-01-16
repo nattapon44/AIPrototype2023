@@ -14,12 +14,17 @@ def hellonattapon():
 
 @app.route("/home", methods=['POST','GET'])
 def homefn():
-    print('we are in home', file=sys.stdout)
-    namein = request.form.get('fname')
-    lastnamein = request.form.get('lname')
-    print(namein, file=sys.stdout)
-    print(lastnamein, file=sys.stdout)
-    return render_template("home.html",name=namein)
+    if request.method == "GET":
+        print('we are in home(GET)', file=sys.stdout)
+        namein = request.args.get('fname')
+        print(namein, file=sys.stdout)
+        return render_template("home.html",name=namein)
+    elif request.method == "POST":
+        namein = request.form.get('fname')
+        lastnamein = request.form.get('lname')
+        print(namein, file=sys.stdout)
+        print(lastnamein, file=sys.stdout)
+        return render_template("home.html",name=namein)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
