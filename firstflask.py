@@ -19,7 +19,7 @@ def homefn():
     lastnamein = request.form.get('lname')
     print(namein, file=sys.stdout)
     print(lastnamein, file=sys.stdout)
-    return render_template("home.html",name='namein')
+    return render_template("home.html",name=namein)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
