@@ -4,6 +4,15 @@ import sys
 
 app = Flask(__name__)
 
+##api
+@app.route('/request',method=['POST'])
+def web_service_API():
+    payload = request.data.decode("uft-8")
+    inmessage = json.loads(payload)
+    print(inmessage)
+    json_data = json.dumps({'y':'received!'})
+    return json_data
+
 @app.route("/")  
 def helloworld():
     return "Hello, World!"
