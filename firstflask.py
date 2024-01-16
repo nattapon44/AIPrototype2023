@@ -11,7 +11,7 @@ def helloworld():
 def hellonattapon():
     return "Hello, Nattapon!"
 
-@app.route("/home2")
+@app.route("/homefn")
 def home2():
     return render_template("home.html",name='nattapon')
 
