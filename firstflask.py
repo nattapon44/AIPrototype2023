@@ -4,7 +4,7 @@ import sys
 
 app = Flask(__name__)
 
-##api
+##apii
 @app.route('/request',methods=['POST'])
 def web_service_API():
     payload = request.data.decode("uft-8")
