@@ -11,9 +11,10 @@ def home():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        files = request.files['file']
+        files = request.files.getlist('file')
         for file in files:
             file.save('filename')
+        return 'Files uploaded successfully'
     return render_template("upload.html",name='upload completed')
 
 

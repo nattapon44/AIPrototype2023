@@ -8,25 +8,25 @@
 <body>
     <h1>This is upload page</h1>
     <div class="container">
-        <h2>Input Course</h2>
+        <h2>Input Course (.csv file)</h2>
         <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file1" accept=".csv,.txt">
             <button type="submit">Upload</button>
         </form>
         
-        <h2>Input Room</h2>
+        <h2>Input Room (.csv file)</h2>
         <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file2" accept=".csv,.txt">
             <button type="submit">Upload</button>
         </form>
         
-        <h2>Input Professor</h2>
+        <h2>Input Professor (.csv file)</h2>
         <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file3" accept=".csv,.txt">
             <button type="submit">Upload</button>
         </form>
 
-        <h2>Input Student</h2>
+        <h2>Input Student (.csv file)</h2>
         <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file3" accept=".csv,.txt">
             <button type="submit">Upload</button>
