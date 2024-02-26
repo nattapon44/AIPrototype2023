@@ -65,6 +65,8 @@ document.querySelector('.close').addEventListener('click', function() {
                         console.log(response);
                     }
                 });
+    
+                return false; // ไม่ต้องให้ฟอร์มส่งข้อมูลธรรมดา
             });
     
             // ปิด Pop-up เมื่อคลิกที่ปุ่มปิด
@@ -73,6 +75,7 @@ document.querySelector('.close').addEventListener('click', function() {
             });
         });
     </script>
+    
     
 </body>
 </html>
