@@ -23,7 +23,7 @@
 
     <!-- HTML สำหรับ Pop-up -->
     <div id="popup" class="popup">
-        <span class="close">&times;</span>
+        <span class="close" onclick="closePopup()">&times;</span>
         <h2>Upload Completed</h2>
         <p>Your files have been uploaded successfully.</p>
     </div>
@@ -40,6 +40,10 @@
             this.submit();
         });
 
+        // ฟังก์ชันสำหรับปิด Pop-up
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
     </script>
 </body>
 </html>
