@@ -8,12 +8,6 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route('/web-page')
-def index():
-    html_dir = '/home/nattapon/outside/ubuntu/AIPrototype2023/time-table/'
-    html_file = 'index.html'
-    return send_from_directory(directory=html_dir, filename=html_file)
-    
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
