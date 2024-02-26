@@ -27,19 +27,18 @@ h2 {
 input[type="file"] {
     display: block;
     margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc; /* เส้นขอบ */
-    border-radius: 5px; /* ขอบโค้ง */
-    background-color: #f9f9f9; /* สีพื้นหลัง */
-    color: #333; /* สีของตัวอักษร */
-    font-size: 16px; /* ขนาดตัวอักษร */
-    cursor: pointer;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* เมื่อโฮเวอร์ */
 input[type="file"]:hover {
-    background-color: #e9e9e9; /* เปลี่ยนสีพื้นหลังเมื่อโฮเวอร์ */
-    border-color: #aaa; /* เปลี่ยนสีขอบเมื่อโฮเวอร์ */
+    background-color: #f0f0f0;
+}
+
 }
 
   
