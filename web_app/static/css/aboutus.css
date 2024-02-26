@@ -19,18 +19,23 @@ h1 {
     font-size: 36px;
 }
 
-.about-section {
-    padding: 40px;
-}
-
-.about-section h2 {
-    font-size: 24px;
+/* aboutus.css */
+.abstract-section {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
     margin-bottom: 20px;
 }
 
-.about-section h3 {
+.abstract-section h3 {
     font-size: 20px;
-    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.abstract-section p {
+    font-size: 16px;
+}
+
 }
 
 .team-section {
