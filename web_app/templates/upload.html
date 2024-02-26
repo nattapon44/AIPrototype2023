@@ -31,12 +31,10 @@
     <script>
         // เพิ่ม event listener ให้กับฟอร์ม
         document.getElementById('uploadForm').addEventListener('submit', function(event){
-            // event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
+            // ป้องกันฟอร์มส่งข้อมูล
+            event.preventDefault(); 
             // แสดง Pop-up
             document.getElementById('popup').style.display = 'block';
-
-            // ส่งข้อมูลฟอร์ม
-            this.submit();
         });
 
         // ฟังก์ชันสำหรับปิด Pop-up
