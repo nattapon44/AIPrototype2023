@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Class scheduling Web App</title>
-        <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css') }}">
-    </head>
-    <body>
-        <h1>Welcome to Class Scheduling Web App</h1>
-        <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
-        <a href="{{ url_for('upload') }}"><button>Go to Upload File page</buttonUpload></a>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Scheduling Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Class Scheduling Web App</h1>
+    </header>
+    <main>
+        <section>
+            <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
+            <a href="{{ url_for('upload') }}" class="btn">Go to Upload File page</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Class Scheduling Web App</p>
+    </footer>
+</body>
 </html>
