@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #c5b1b1; /* สีพื้นหลังหลัก */
+    background-color: #c5b1b1;
     margin: 0;
     padding: 0;
 }
@@ -9,22 +9,21 @@ body {
     max-width: 600px;
     margin: 50px auto;
     padding: 20px;
-    background-color: #fff; /* สีพื้นหลังของตัวกล่องที่ห่อหุ้มคอนเทนเนอร์ */
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
   
 h1 {
     text-align: center;
-    color: rgb(255, 255, 255); /* สีของข้อความหัวเรื่อง */
+    color: #fff;
 }
   
 h2 {
     margin-top: 20px;
-    color: #555; /* สีของข้อความหัวเรื่องย่อย */
+    color: #555;
 }
   
-/* สไตล์สำหรับ input[type="file"] */
 input[type="file"] {
     display: block;
     margin-bottom: 10px;
@@ -37,26 +36,23 @@ input[type="file"] {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-/* สไตล์เมื่อโฮเวอร์ input[type="file"] */
 input[type="file"]:hover {
     background-color: #e9e9e9;
     border-color: #aaa;
 }
 
-/* สไตล์เมื่อโฟกัส input[type="file"] */
 input[type="file"]:focus {
     outline: none;
-    border-color: #007bff; /* เปลี่ยนสีเมื่อโฟกัส */
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* เพิ่มเงาเมื่อโฟกัส */
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-  
 button[type="submit"] {
     display: block;
     margin: 10px auto;
     padding: 10px 20px;
-    background-color: linear-gradient(to right, #007bff, #0056b3); /* Gradient ของปุ่ม */
-    color: rgb(53, 54, 65); /* สีของข้อความบนปุ่ม */
+    background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -64,27 +60,10 @@ button[type="submit"] {
 }
   
 button[type="submit"]:hover {
-    background-color: #007bff; /* สีของปุ่มเมื่อโฮเวอร์ */
-    color: rgb(255, 255, 255);
+    background-color: #0056b3;
+    color: #fff;
 }
-  
-/* เพิ่มเติม */
-  
-.container {
-    background-image: url(https://tenor.com/view/jm-gif-18068790282636308332); /* เพิ่มรูปภาพ */
-    background-size: cover;
-    background-position: center;
-}
-  
-h1 {
-    font-family: 'Poppins', sans-serif; /* Font ที่ทันสมัย */
-}
-  
-h2 {
-    font-family: 'Roboto', sans-serif; /* Font ที่ทันสมัย */
-}
-  
-/* CSS สำหรับ Pop-up */
+
 .popup {
     display: none;
     position: fixed;
@@ -123,9 +102,8 @@ h2 {
     color: #555555;
 }
 
-/* CSS สำหรับปุ่ม "OK" */
 #popup button {
-    background-color: #4CAF50; /* สีเขียว */
+    background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -135,23 +113,23 @@ h2 {
 }
 
 #popup button:hover {
-    background-color: #45a049; /* เมื่อชี้ที่ปุ่ม */
+    background-color: #45a049;
 }
 
 #popup button:active {
-    background-color: #ffffff; /* เมื่อปุ่มถูกกด */
+    background-color: #ffffff;
 }
 
 .back-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff; /* สีพื้นหลังของปุ่ม */
-    color: #fff; /* สีข้อความบนปุ่ม */
-    text-decoration: none; /* ลบการเขี้ยวเส้นใต้ */
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.3s; /* เพิ่มการเปลี่ยนแปลงสีเมื่อโฮเวอร์ */
+    transition: background-color 0.3s;
 }
 
 .back-button:hover {
-    background-color: #0056b3; /* เปลี่ยนสีเมื่อโฮเวอร์ */
+    background-color: #0056b3;
 }
