@@ -34,7 +34,7 @@ body {
     margin: 10px auto;
     padding: 10px 20px;
     background-color: linear-gradient(to right, #007bff, #0056b3); /* Gradient ของปุ่ม */
-    color: #fff; /* สีของข้อความบนปุ่ม */
+    color: rgb(53, 54, 65); /* สีของข้อความบนปุ่ม */
     border: none;
     border-radius: 4px;
     cursor: pointer;
