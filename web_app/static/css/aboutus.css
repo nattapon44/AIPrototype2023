@@ -1,74 +1,77 @@
-/* Reset CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Global Styles */
+/* aboutus.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    line-height: 1.6;
+    background-color: #f8f9fa;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-.container {
-    max-width: 960px;
-    margin: auto;
-    padding: 0 20px;
-}
-
-/* Header */
 header {
-    background: #333;
+    background-color: #007bff;
     color: #fff;
-    padding: 20px 0;
     text-align: center;
+    padding: 20px 0;
 }
 
-header h1 {
+h1 {
+    margin: 0;
     font-size: 36px;
 }
 
-/* Main Content */
-main {
-    padding: 20px 0;
+.about-section {
+    padding: 40px;
 }
 
-section {
-    background: #fff;
-    padding: 20px;
+.about-section h2 {
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-section p {
+.about-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.team-section {
+    background-color: #f8f9fa;
+    padding: 40px;
+}
+
+.team-section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.team-members {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.member {
+    text-align: center;
     margin-bottom: 20px;
 }
 
-.btn {
-    display: inline-block;
-    background: #333;
-    color: #fff;
-    padding: 10px 20px;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    transition: background 0.3s ease;
+.member img {
+    border-radius: 50%;
+    margin-bottom: 10px;
 }
 
-.btn:hover {
-    background: #555;
+.member h4 {
+    margin: 0;
 }
 
-/* Footer */
 footer {
-    background: #333;
+    background-color: #007bff;
     color: #fff;
     text-align: center;
     padding: 20px 0;
 }
 
 footer p {
-    font-size: 14px;
+    margin: 0;
+    font-size: 18px;
 }
