@@ -31,8 +31,7 @@
     <script>
         // เพิ่ม event listener ให้กับฟอร์ม
         document.getElementById('uploadForm').addEventListener('submit', function(event){
-            event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
-
+            // event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
             // แสดง Pop-up
             document.getElementById('popup').style.display = 'block';
 
@@ -44,6 +43,7 @@
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
         }
+
     </script>
 </body>
 </html>
