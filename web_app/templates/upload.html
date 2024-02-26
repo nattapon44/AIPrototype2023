@@ -22,8 +22,15 @@
     </div>
 
     <script>
-        document.getElementById('uploadForm').addEventListener('submit', function(){
+        // เพิ่ม event listener ให้กับฟอร์ม
+        document.getElementById('uploadForm').addEventListener('submit', function(event){
+            event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
+
+            // แสดง Pop-up
             alert('Upload Completed');
+
+            // ส่งข้อมูลฟอร์ม
+            this.submit();
         });
     </script>
 </body>
