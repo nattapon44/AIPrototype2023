@@ -44,5 +44,35 @@ document.querySelector('.close').addEventListener('click', function() {
 });
 
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#uploadForm').submit(function(event) {
+                event.preventDefault(); // ยกเลิกการส่งแบบฟอร์มเริ่มต้น
+                
+                // แสดง Pop-up
+                $('#popup').show();
+    
+                // ส่งข้อมูลแบบ AJAX
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // ประมวลผลคำตอบ
+                        console.log(response);
+                    }
+                });
+            });
+    
+            // ปิด Pop-up เมื่อคลิกที่ปุ่มปิด
+            $('.close').click(function() {
+                $('#popup').hide();
+            });
+        });
+    </script>
+    
 </body>
 </html>
