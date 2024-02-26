@@ -42,7 +42,7 @@
         // ฟังก์ชันสำหรับปิด Pop-up
         function closePopup() {
             document.getElementById('popup').style.display = 'none';
-            location.location.href = "{{ url_for('home') }}";
+            window.location.href = "{{ url_for('home') }}";
         }
 
     </script>
