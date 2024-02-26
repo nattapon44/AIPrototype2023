@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Upload page</title>
-    </head>
-    <body>
-        <h1>This is upload page</h1>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Upload page</title>
+</head>
+<body>
+    <h1>This is upload page</h1>
+    <div class="container">
+        <h2>Input Course</h2>
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file1" accept=".csv,.txt">
+            <button type="submit">Upload</button>
+        </form>
+        
+        <h2>Input Course</h2>
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file2" accept=".csv,.txt">
+            <button type="submit">Upload</button>
+        </form>
+        
+        <h2>Input Course</h2>
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file3" accept=".csv,.txt">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+</body>
 </html>

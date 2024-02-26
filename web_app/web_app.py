@@ -12,14 +12,9 @@ def home():
 def upload():
     if request.method == 'POST':
         file = request.files['file']
-        file.save('filename')
+        for file in files:
+            file.save('filename')
         return render_template("home.html",name='upload completed')
-
-
-
-
-
-
 
 
 
