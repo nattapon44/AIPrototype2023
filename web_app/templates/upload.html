@@ -19,19 +19,30 @@
             <input type="file" name="file4" accept=".csv,.txt">
             <button type="submit">Upload</button>
         </form>
-    </div>
+<!-- HTML สำหรับ Pop-up -->
+<div id="popup" class="popup">
+    <span class="close">&times;</span>
+    <h2>Upload Completed</h2>
+    <p>Your files have been uploaded successfully.</p>
+</div>
 
     <script>
-        // เพิ่ม event listener ให้กับฟอร์ม
-        document.getElementById('uploadForm').addEventListener('submit', function(event){
-            event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
+// เพิ่ม event listener ให้กับฟอร์ม
+document.getElementById('uploadForm').addEventListener('submit', function(event){
+    event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
 
-            // แสดง Pop-up
-            alert('Upload Completed');
+    // แสดง Pop-up
+    document.getElementById('popup').style.display = 'block';
 
-            // ส่งข้อมูลฟอร์ม
-            this.submit();
-        });
+    // ส่งข้อมูลฟอร์ม
+    this.submit();
+});
+
+// เพิ่ม event listener ให้กับปุ่มปิด Pop-up
+document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+});
+
     </script>
 </body>
 </html>
