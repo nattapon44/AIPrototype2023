@@ -43,6 +43,7 @@ body {
   
   button[type="submit"]:hover {
     background-color: #007bff; /* สีของปุ่มเมื่อโฮเวอร์ */
+    color: rgb(255, 255, 255);
   }
   
   /* เพิ่มเติม */
