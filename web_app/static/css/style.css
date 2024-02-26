@@ -44,3 +44,17 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background-color: #0056b3; /* สีของปุ่มเมื่อโฮเวอร์ */
 }
+
+.container {
+    background-image: url(https://www.example.com/image.jpg); /* เพิ่มรูปภาพ */
+    background-size: cover;
+    background-position: center;
+}
+  
+h1 {
+    font-family: 'Poppins', sans-serif; /* Font ที่ทันสมัย */
+}
+  
+h2 {
+    font-family: 'Roboto', sans-serif; /* Font ที่ทันสมัย */
+}
