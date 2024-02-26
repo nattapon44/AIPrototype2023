@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/aboutus.css') }}">
 </head>
 <body>
-    <header>
+    <header class="header">
         <h1>About Us</h1>
     </header>
     <section class="abstract-section">
@@ -19,15 +19,11 @@
                         <br><br>Keywords: Class scheduling, Class Timetabling, Integer Linear Programming, optimization</p>
     </section>
     <section class="poster-section">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <h3><strong>Project poster</strong></h3>
-                <hr>
-                <div class="text-center">
-                    <div style="position: relative">
-                        <img src="./static/poster1.png" height="1000px"><br>
-                    </div>
-                </div>
+        <div class="poster-wrapper">
+            <h3><strong>Project poster</strong></h3>
+            <hr>
+            <div class="poster">
+                <img src="./static/poster1.png" alt="Project Poster">
             </div>
         </div>
     </section>
@@ -36,26 +32,25 @@
         <div class="team-members">
             <div class="member">
                 <a href="https://github.com/nattapon44">
-                    <img src="./static/face1.png" alt="Nattapon Surasin" height="120px"><br>
+                    <img src="./static/face1.png" alt="Nattapon Surasin">
                     <h4>Nattapon Surasin - Student</h4>
                 </a>
             </div>
             <div class="member">
                 <a href="https://github.com/yanin254417"> 
-                    <img src="./static/face2.png" alt="Yanin Sareeso" height="120px"><br>
+                    <img src="./static/face2.png" alt="Yanin Sareeso">
                     <h4>Yanin Sareeso - Student</h4>
                 </a>
             </div>
             <div class="member">
                 <a href="https://github.com/PitchayaW">
-                    <img src="./static/face3.png" alt="Pitchaya Wiratchotisatian" height="120px"><br>
+                    <img src="./static/face3.png" alt="Pitchaya Wiratchotisatian">
                     <h4>Pitchaya Wiratchotisatian - Advisor</h4>
                 </a>
             </div>
         </div>
-
     </section>
-    <footer>
+    <footer class="footer">
         <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
     </footer>
 </body>
