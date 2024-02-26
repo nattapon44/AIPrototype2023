@@ -141,3 +141,17 @@ h2 {
 #popup button:active {
     background-color: #ffffff; /* เมื่อปุ่มถูกกด */
 }
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* สีพื้นหลังของปุ่ม */
+    color: #fff; /* สีข้อความบนปุ่ม */
+    text-decoration: none; /* ลบการเขี้ยวเส้นใต้ */
+    border-radius: 5px;
+    transition: background-color 0.3s; /* เพิ่มการเปลี่ยนแปลงสีเมื่อโฮเวอร์ */
+}
+
+.back-button:hover {
+    background-color: #0056b3; /* เปลี่ยนสีเมื่อโฮเวอร์ */
+}
