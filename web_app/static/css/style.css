@@ -1,31 +1,54 @@
+/* โทนสีแบบโมเดิร์น */
 body {
+    background-color: #f7f7f7; /* สีเทาอ่อน */
+  }
+  
+  .container {
     background-color: #ffffff; /* สีขาว */
-}
-.container {
     border: 1px solid #ddd; /* สีเทาอ่อน */
     padding: 20px;
-}
-h1 {
-    font-size: 24px;
-}
+  }
   
-p {
-    font-size: 16px;
-}
-button {
-    background-color: #000000; /* สีดำ */
-    color: #ffffff; /* สีขาว */
-    font-size: 16px;
-    padding: 10px;
-    border: none;
-}
+  h1 {
+    color: #333333; /* สีเทาเข้ม */
+  }
   
-button:hover {
-    background-color: #333333; /* สีเทาเข้ม */
-}
-.image {
+  p {
+    color: #666666; /* สีเทา */
+  }
+  
+  /* การ์ด */
+  .card {
+    display: block;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ddd; /* สีเทาอ่อน */
+    border-radius: 5px;
+  }
+  
+  /* รูปภาพ */
+  .image {
     display: block;
     margin: 0 auto;
     width: 200px;
-}
+  }
+  
+  /* Animation */
+  .button:hover {
+    animation: pulse 1s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+  
+    50% {
+      transform: scale(1.1);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
   
