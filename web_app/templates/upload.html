@@ -6,28 +6,16 @@
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css') }}">
 </head>
 <body>
-    <h1>This is upload page</h1>
+    <h1>Upload Files page</h1>
     <div class="container">
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
         <h2>Input Course (.csv file)</h2>
-        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file1" accept=".csv,.txt">
-            <button type="submit">Upload</button>
-        </form>
-        
         <h2>Input Room (.csv file)</h2>
-        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file2" accept=".csv,.txt">
-            <button type="submit">Upload</button>
-        </form>
-        
         <h2>Input Professor (.csv file)</h2>
-        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file3" accept=".csv,.txt">
-            <button type="submit">Upload</button>
-        </form>
-
         <h2>Input Student (.csv file)</h2>
-        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file3" accept=".csv,.txt">
             <button type="submit">Upload</button>
         </form>
