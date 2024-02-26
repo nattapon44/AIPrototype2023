@@ -101,24 +101,21 @@ h2 {
     color: #555555;
 }
 
-<style>
-    /* CSS สำหรับปุ่ม "OK" */
-    #popup button {
-        background-color: #4CAF50; /* สีเขียว */
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
+/* CSS สำหรับปุ่ม "OK" */
+#popup button {
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-    #popup button:hover {
-        background-color: #45a049; /* เมื่อชี้ที่ปุ่ม */
-    }
+#popup button:hover {
+    background-color: #45a049; /* เมื่อชี้ที่ปุ่ม */
+}
 
-    #popup button:active {
-        background-color: #367c3a; /* เมื่อปุ่มถูกกด */
-    }
-</style>
-
+#popup button:active {
+    background-color: #367c3a; /* เมื่อปุ่มถูกกด */
+}
