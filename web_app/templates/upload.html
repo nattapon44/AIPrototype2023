@@ -9,73 +9,41 @@
     <h1>Upload Files page</h1>
     <div class="container">
         <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-        <h2>Input Course (.csv file)</h2>
+            <h2>Input Course (.csv file)</h2>
             <input type="file" name="file1" accept=".csv,.txt">
-        <h2>Input Room (.csv file)</h2>
+            <h2>Input Room (.csv file)</h2>
             <input type="file" name="file2" accept=".csv,.txt">
-        <h2>Input Professor (.csv file)</h2>
+            <h2>Input Professor (.csv file)</h2>
             <input type="file" name="file3" accept=".csv,.txt">
-        <h2>Input Student (.csv file)</h2>
+            <h2>Input Student (.csv file)</h2>
             <input type="file" name="file4" accept=".csv,.txt">
             <button type="submit">Upload</button>
         </form>
-<!-- HTML สำหรับ Pop-up -->
-<div id="popup" class="popup">
-    <span class="close">&times;</span>
-    <h2>Upload Completed</h2>
-    <p>Your files have been uploaded successfully.</p>
-</div>
+    </div>
+
+    <!-- HTML สำหรับ Pop-up -->
+    <div id="popup" class="popup">
+        <span class="close">&times;</span>
+        <h2>Upload Completed</h2>
+        <p>Your files have been uploaded successfully.</p>
+    </div>
 
     <script>
-// เพิ่ม event listener ให้กับฟอร์ม
-document.getElementById('uploadForm').addEventListener('submit', function(event){
-    event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
+        // เพิ่ม event listener ให้กับฟอร์ม
+        document.getElementById('uploadForm').addEventListener('submit', function(event){
+            event.preventDefault(); // ป้องกันฟอร์มส่งข้อมูล
 
-    // แสดง Pop-up
-    document.getElementById('popup').style.display = 'block';
+            // แสดง Pop-up
+            document.getElementById('popup').style.display = 'block';
 
-    // ส่งข้อมูลฟอร์ม
-    this.submit();
-});
+            // ส่งข้อมูลฟอร์ม
+            this.submit();
+        });
 
-// เพิ่ม event listener ให้กับปุ่มปิด Pop-up
-document.querySelector('.close').addEventListener('click', function() {
-    document.getElementById('popup').style.display = 'none';
-});
-
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#uploadForm').submit(function(event) {
-                event.preventDefault(); // ยกเลิกการส่งแบบฟอร์มเริ่มต้น
-                
-                // แสดง Pop-up
-                $('#popup').show();
-    
-                // ส่งข้อมูลแบบ AJAX
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: new FormData(this),
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        // ประมวลผลคำตอบ
-                        console.log(response);
-                    }
-                });
-    
-                return false; // ไม่ต้องให้ฟอร์มส่งข้อมูลธรรมดา
-            });
-    
-            // ปิด Pop-up เมื่อคลิกที่ปุ่มปิด
-            $('.close').click(function() {
-                $('#popup').hide();
-            });
+        // เพิ่ม event listener ให้กับปุ่มปิด Pop-up
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('popup').style.display = 'none';
         });
     </script>
-    
-    
 </body>
 </html>

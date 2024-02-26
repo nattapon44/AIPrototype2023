@@ -62,38 +62,41 @@ h2 {
     font-family: 'Roboto', sans-serif; /* Font ที่ทันสมัย */
 }
   
-  /* CSS สำหรับแต่ง Pop-up */
+/* CSS สำหรับ Pop-up */
 .popup {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    max-width: 300px;
+    width: 80%;
+    text-align: center;
 }
 
 .popup h2 {
-    text-align: center;
-    color: #333;
+    margin-top: 0;
+    color: #333333;
 }
 
 .popup p {
-    text-align: center;
-    color: #555;
+    color: #555555;
+    margin-bottom: 20px;
 }
 
 .popup .close {
     position: absolute;
     top: 10px;
     right: 10px;
+    font-size: 20px;
+    color: #999999;
     cursor: pointer;
-    color: #999;
 }
 
 .popup .close:hover {
-    color: #555;
+    color: #555555;
 }
