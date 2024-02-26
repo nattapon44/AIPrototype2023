@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Class scheduling Web App</title>
+        <link rel="stylesheet" href="{{ url_for ('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <h1>Welcome to Class Scheduling Web App</h1>
+        <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
+        <h3>Input Course</h3>
+
+        <form action="{{ url_for('home')}}" method="post">
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" name="fname" placeholder="first name"><br><br>
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" name="lname" placeholder="last name"><br><br>
+            <button type="submit">submit</button>
+        </form>
+    </body>
+</html>
