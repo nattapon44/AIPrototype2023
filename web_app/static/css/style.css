@@ -70,3 +70,28 @@ body {
     }
   }
   
+  /* Font ที่ทันสมัย */
+  h1 {
+    font-family: sans-serif;
+  }
+  
+  p {
+    font-family: sans-serif;
+  }
+  
+  /* การ์ด */
+  .card {
+    display: block;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ddd; /* สีเทาอ่อน */
+    border-radius: 5px;
+  }
+  
+  /* Grid Layout */
+  .container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+  
