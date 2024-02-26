@@ -15,6 +15,10 @@ def webpage():
         html_content = file.read()
     return html_content
 
+@app.route("/about-us")
+def aboutproject():
+    return render_template("aboutus.html")
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
