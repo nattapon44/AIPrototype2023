@@ -11,6 +11,8 @@ def home():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_page():
     return render_template('upload.html')
+    
+@app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         files = request.files.getlist('file')
