@@ -4,18 +4,20 @@ import sys
 
 app = Flask(__name__)
 
-@app.route("/home")
+@app.route("/")
 def home():
     return render_template("home.html")
     
 @app.route('/upload', methods=['GET', 'POST'])
+def upload_page():
+    return render_template('upload.html')
 def upload():
     if request.method == 'POST':
         files = request.files.getlist('file')
         for file in files:
             file.save('filename')
-        return 'Files uploaded successfully'
     return render_template("upload.html",name='upload completed')
+
 
 
 
