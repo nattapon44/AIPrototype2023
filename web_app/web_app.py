@@ -24,7 +24,7 @@ def upload():
     if request.method == 'POST':
         files = request.files.getlist('file')
         for file in files:
-            file.save('uploads/' + file.filename)  # Save the uploaded file in 'uploads' folder
+            file.save('/home/nattapon/codes/AIPrototype2023/uploads/' + file.filename)  # Save the uploaded file in 'uploads' folder
     return render_template("upload.html", name='upload completed')
 
 
