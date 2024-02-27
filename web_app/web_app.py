@@ -23,7 +23,7 @@ def aboutproject():
 
 @app.route('/upload')
 def upload_file_page():
-    return render_template("home.html")
+    return render_template("upload.html")
 
 @app.route('/upload')
 def upload_file_csv():
