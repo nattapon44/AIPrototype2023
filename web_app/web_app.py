@@ -23,7 +23,7 @@ def aboutproject():
 
 
 @app.route('/upload', methods=['GET', 'POST'])
-def upload():
+def upload_file_csv():
     print(2222)
     if request.method == 'POST':
         print(1111)
