@@ -21,7 +21,7 @@ def aboutproject():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    uploaded_file = request.files['file']
+    uploaded_file = request.files('file')
     if uploaded_file.filename != '':
         uploaded_file.save(uploaded_file.filename)
         return 'File uploaded successfully.'
