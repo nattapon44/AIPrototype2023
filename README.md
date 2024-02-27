@@ -12,7 +12,7 @@ Python Subprocess | [คาบที่ 5](https://github.com/nattapon44/AIProto
 Web Page & Web App & Web Service |[คาบที่ 6](https://github.com/nattapon44/AIPrototype2023/blob/main/lecture/%E0%B8%84%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88%206.txt)
 Web App % Web Service |[คาบที่ 7-8](https://github.com/nattapon44/AIPrototype2023/blob/main/lecture/%E0%B8%84%E0%B8%B2%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%88%207-8.txt)
 Deep Learining |[คาบที่ 9-10]
-Tensorflow | [คาบที่ 11]
+Tensorflow | [คาบที่ 11](https://github.com/nattapon44/AIPrototype2023/blob/main/Tensorflow_(Deep_Learning_Implementation).ipynb)
 
 # About Project
 |CONTENT | Lecture|
