@@ -86,6 +86,24 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+#popup button {
+    background-color: #4CAF50; /* สีเขียว */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#popup button:hover {
+    background-color: #45a049; /* เมื่อชี้ที่ปุ่ม */
+}
+
+#popup button:active {
+    background-color: #ffffff; /* เมื่อปุ่มถูกกด */
+}
+
 footer {
     background-color: #007bff; /* สีพื้นหลังของ Footer */
     color: #fff; /* สีข้อความ Footer */
