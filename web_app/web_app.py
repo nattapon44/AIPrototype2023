@@ -21,7 +21,7 @@ def webpage():
 def aboutproject():
     return render_template("aboutus.html")
 
-@app.route('/upload1')
+@app.route('/upload-page')
 def upload_file_page():
     return render_template("upload.html")
 
