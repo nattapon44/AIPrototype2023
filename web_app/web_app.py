@@ -22,7 +22,7 @@ def aboutproject():
     return render_template("aboutus.html")
 
 
-@app.route('/upload', methods=['GET', 'POST'])
+@app.route('/upload', methods=['POST'])
 def upload_file_csv():
     print(2222)
     if request.method == 'POST':
