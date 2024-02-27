@@ -6,21 +6,28 @@
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/upload.css') }}">
 </head>
 <body>
-    <h1>Upload Files page</h1>
-    <div class="container">
-        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-            <h2>Input Course (.csv file)</h2>
-            <input type="file" name="file1" accept=".csv,.txt">
-            <h2>Input Room (.csv file)</h2>
-            <input type="file" name="file2" accept=".csv,.txt">
-            <h2>Input Professor (.csv file)</h2>
-            <input type="file" name="file3" accept=".csv,.txt">
-            <h2>Input Student (.csv file)</h2>
-            <input type="file" name="file4" accept=".csv,.txt">
-            <button type="submit">Upload</button>
-        </form>
-        <a href="{{ url_for('home') }}" class="back-button">Back to Home</a>
-    </div>
+    <header>
+        <h1>Upload Files page</h1>
+    </header>
+    <main>
+        <section class="upload-section">
+            <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                <h2>Input Course (.csv file)</h2>
+                <input type="file" name="file1" accept=".csv,.txt">
+                <h2>Input Room (.csv file)</h2>
+                <input type="file" name="file2" accept=".csv,.txt">
+                <h2>Input Professor (.csv file)</h2>
+                <input type="file" name="file3" accept=".csv,.txt">
+                <h2>Input Student (.csv file)</h2>
+                <input type="file" name="file4" accept=".csv,.txt">
+                <button type="submit">Upload</button>
+            </form>
+            <a href="{{ url_for('home') }}" class="back-button">Back to Home</a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Class Scheduling Web App</p>
+    </footer>
 
     <!-- HTML สำหรับ Pop-up -->
     <div id="popup" class="popup">

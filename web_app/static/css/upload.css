@@ -1,29 +1,37 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #c5b1b1;
+    background-color: #f8f9fa; /* สีพื้นหลังหลัก */
     margin: 0;
     padding: 0;
 }
   
-.container {
-    max-width: 600px;
-    margin: 50px auto;
+header {
+    background-color: #007bff; /* สีพื้นหลังของหัวข้อหลัก */
+    color: #fff; /* สีข้อความหัวข้อหลัก */
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    margin: 0;
+}
+
+main {
+    margin: 20px;
+}
+
+.upload-section {
+    background-color: #fff; /* สีพื้นหลังของส่วน upload */
     padding: 20px;
-    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-  
-h1 {
-    text-align: center;
-    color: #fff;
-}
-  
-h2 {
+
+.upload-section h2 {
     margin-top: 20px;
-    color: #555;
+    color: #555; /* สีข้อความหัวเรื่องย่อย */
 }
-  
+
 input[type="file"] {
     display: block;
     margin-bottom: 10px;
@@ -64,62 +72,6 @@ button[type="submit"]:hover {
     color: #fff;
 }
 
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    max-width: 300px;
-    width: 80%;
-    text-align: center;
-}
-
-.popup h2 {
-    margin-top: 0;
-    color: #333333;
-}
-
-.popup p {
-    color: #555555;
-    margin-bottom: 20px;
-}
-
-.popup .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    color: #999999;
-    cursor: pointer;
-}
-
-.popup .close:hover {
-    color: #555555;
-}
-
-#popup button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#popup button:hover {
-    background-color: #45a049;
-}
-
-#popup button:active {
-    background-color: #ffffff;
-}
-
 .back-button {
     display: inline-block;
     padding: 10px 20px;
@@ -132,4 +84,11 @@ button[type="submit"]:hover {
 
 .back-button:hover {
     background-color: #0056b3;
+}
+
+footer {
+    background-color: #007bff; /* สีพื้นหลังของ Footer */
+    color: #fff; /* สีข้อความ Footer */
+    text-align: center;
+    padding: 10px 0;
 }
