@@ -25,7 +25,7 @@ def upload():
         files = request.files.getlist('file')
         for file in files:
             file.save('uploads/' + file.filename)  # Save the uploaded file in 'uploads' folder
-    return render_template("upload.html", name='upload completed')
+    return render_template("upload.html")
 
 
 
