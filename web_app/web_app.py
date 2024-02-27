@@ -21,19 +21,14 @@ def webpage():
 def aboutproject():
     return render_template("aboutus.html")
 
-upload_folder = '/home/nattapon/codes/AIPrototype2023/web_app'
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         files = request.files.getlist('file')
         for file in files:
-            file_path = os.path.join(upload_folder, file.filename)
-            if os.access(upload_folder, os.W_OK):  # ตรวจสอบสิทธิ์การเขียนในโฟลเดอร์
-                file.save(file_path)
-            else:
-                return f"Permission denied: Flask cannot access {upload_folder}"
-    return render_template("upload.html")
+            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
+    return render_template("upload.html", name='upload completed')
 
 
 if __name__ == "__main__":
