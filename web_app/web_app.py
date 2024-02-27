@@ -21,7 +21,7 @@ def webpage():
 def aboutproject():
     return render_template("aboutus.html")
 
-upload_folder = '/home/nattapon/codes/AIPrototype2023/web_app/uploads'
+upload_folder = '/home/nattapon/codes/AIPrototype2023/web_app'
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
