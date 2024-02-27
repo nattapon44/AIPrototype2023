@@ -24,7 +24,9 @@ def aboutproject():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    print(2222)
     if request.method == 'POST':
+        print(1111)
         files = request.files.getlist('file') 
         for file in files:
             file.save(file.filename)  # Save the uploaded file in 'uploads' folder
