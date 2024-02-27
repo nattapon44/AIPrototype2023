@@ -25,10 +25,11 @@ def aboutproject():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        files = request.files.getlist('file')
+        files = request.files.getlist('file') 
         for file in files:
             file.save(file.filename)  # Save the uploaded file in 'uploads' folder
     return render_template("upload.html", name='upload completed')
+
 
 
 if __name__ == "__main__":
