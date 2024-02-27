@@ -11,7 +11,7 @@ def home():
 @app.route("/web-page-project")
 def webpage():
     # อ่านเนื้อหา HTML จากไฟล์ภายนอก
-    with open("/home/nattapon/outside/ubuntu/AIPrototype2023/time-table/index.html", "r") as file:
+    with open("/home/nattapon/codes/AIPrototype2023/time-table/index.html", "r") as file:
         html_content = file.read()
     return html_content
 
