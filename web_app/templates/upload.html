@@ -25,7 +25,7 @@
             <a href="{{ url_for('home') }}" class="back-button">Back to Home</a>
         </section>
     </main>
-    
+
     <!-- HTML สำหรับ Pop-up -->
     <div id="popup" class="popup">
         <span class="close" onclick="closePopup()">&times;</span>
@@ -38,7 +38,7 @@
         // เพิ่ม event listener ให้กับฟอร์ม
         document.getElementById('uploadForm').addEventListener('submit', function(event){
             // ป้องกันฟอร์มส่งข้อมูล
-            event.preventDefault(); 
+            // event.preventDefault(); 
             // แสดง Pop-up
             document.getElementById('popup').style.display = 'block';
         });
