@@ -1,0 +1,24 @@
+subprocess เป็นการเขียน python เพื่อไปรันโปรแกรมอื่น
+import subprocess #สำหรับรัน terminal command
+
+if __name__ == "__main__":
+    #basic terminal command
+    print("first run num=100 XX=90")
+    subprocess.run(["python","firstpy.py","--num","100","--XX","90"])
+    print("------------------------------------------------------------")
+    print("second run num=-10 XX=-90")
+    subprocess.run(["python","firstpy.py","--num","-10","--XX","-90"])
+    print("------------------------------------------------------------")
+    print("third run num=0")
+    subprocess.run(["python","firstpy.py","--num","0"])
+    print("------------------------------------------------------------")
+
+
+#use output from other program
+process_output = subprocess.Popen(["python","firstpy.py","--num","0"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+out, err = process_output.communicate()
+print(out.decode('utf-8'))
+print(len(out.decode('utf-8')))
+
+#Hw เขียน subprocess sum output ที่งหมดของ 3 อันข้างบน (ตัวเลขก่อน Hello World!)
+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

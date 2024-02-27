@@ -1,0 +1,18 @@
+01/02/67
+
+สิงที่ต้องทำมี 3 อย่าง
+1. Webpage คือต้องการเล่าว่าโปรเจคของเราคืออะไรเป็นยังไงและอาจจะมีเชือมโยงไป Web App
+  - html ตัวสร้าง webpage
+  - css ออกแบบ webpage
+  - javascript
+
+2. Web App คือเป็นการทำให้คนเข้ามาใช้งานได้
+  - html ตัวสร้าง webpage
+  - css ออกแบบ webpage
+  - javascript
+  - Server Side Script
+  - Python, Flask
+
+3. Web Service
+  - Server Side Script
+	- Flask
