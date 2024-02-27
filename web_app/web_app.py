@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory
 import json
 import sys
+import os
+
 
 app = Flask(__name__)
 
@@ -19,14 +21,19 @@ def webpage():
 def aboutproject():
     return render_template("aboutus.html")
 
+upload_folder = '/home/nattapon/codes/AIPrototype2023/web_app/uploads'
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
         files = request.files.getlist('file')
         for file in files:
-            file.save('/home/nattapon/codes/AIPrototype2023/web_app/' + file.filename)  # Save the uploaded file in 'uploads' folder
+            file_path = os.path.join(upload_folder, file.filename)
+            if os.access(upload_folder, os.W_OK):  # ตรวจสอบสิทธิ์การเขียนในโฟลเดอร์
+                file.save(file_path)
+            else:
+                return f"Permission denied: Flask cannot access {upload_folder}"
     return render_template("upload.html")
-
 
 
 if __name__ == "__main__":
