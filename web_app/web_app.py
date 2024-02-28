@@ -21,9 +21,7 @@ def webpage():
 def aboutproject():
     return render_template("aboutus.html")
 
-@app.route('/upload')
-def upload_file_page():
-    return render_template("upload.html")
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
     print(2222)
     if request.method == 'POST':
