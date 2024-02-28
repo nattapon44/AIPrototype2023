@@ -38,33 +38,7 @@ def upload_file_csv():
     if request.method == 'POST':
         file = request.files['file']
         file.save('filename')
-        return render_template("upload.html",name='upload completed')
-
-    return '''
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Upload page</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename='css/upload.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Upload Files page</h1>
-    </header>
-        <section class="upload-section">
-            <form id="uploadForm" action="{{ url_for('upload_file_csv') }}" method="POST" enctype="multipart/form-data">
-                <h2>Input Course (.csv file)</h2>
-                <input type="file" name="file_course" accept=".csv">
-                <h2>Input Room (.csv file)</h2>
-                <input type="file" name="file_room" accept=".csv">
-                <h2>Input Professor (.csv file)</h2>
-                <input type="file" name="file_professor" accept=".csv">
-                <h2>Input Student (.csv file)</h2>
-                <input type="file" name="file_student" accept=".csv">
-                <button type="submit">Upload</button>
-            </form>       
-    '''
+    return render_template("upload.html",name='upload completed')
 
 
     
