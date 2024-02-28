@@ -26,12 +26,10 @@ def upload_file_csv():
     print(2222)
     if request.method == 'POST':
         print(1111)
-        files = request.files.getlist('file') 
-        for file in files:
-            file.save(file.filename)  
-    return render_template("upload.html")
+        file = request.files['file']
+        file.save('filename')
+        return render_template("home.html",name='upload completed')
 
-
-
+    
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
