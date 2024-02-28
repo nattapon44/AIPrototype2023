@@ -13,7 +13,7 @@ def home():
 
 @app.route("/web-page-project")
 def webpage():
-    return send_from_directory("/home/nattapon/codes/time-table", "index.html")
+    return send_from_directory("index.html")
 
 
 @app.route("/about-us")
