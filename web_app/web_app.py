@@ -28,7 +28,7 @@ def upload_file_csv():
         print(1111)
         file = request.files['file']
         file.save('filename')
-    return render_template("home.html",name='upload completed')
+    return render_template("upload.html",name='upload completed')
 
     
 if __name__ == "__main__":
