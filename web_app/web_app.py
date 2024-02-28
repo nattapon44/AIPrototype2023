@@ -13,10 +13,8 @@ def home():
 
 @app.route("/web-page-project")
 def webpage():
-    # อ่านเนื้อหา HTML จากไฟล์ภายนอก
-    with open("/home/nattapon/codes/time-table/index.html", "r") as file:
-        html_content = file.read()
-    return html_content
+    return send_from_directory("/home/nattapon/codes/time-table", "index.html")
+
 
 @app.route("/about-us")
 def aboutproject():
