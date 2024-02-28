@@ -35,11 +35,13 @@ def aboutproject():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
+    print(2222)
     if request.method == 'POST':
-        file = request.files['file']
-        file.save('filename')
-    return render_template("upload.html",name='upload completed')
-
+        print(1111)
+        files = request.files.getlist('file')  
+        for file in files:
+            file.save(file.filename) 
+    return render_template("upload.html", name='upload completed')
 
     
 
