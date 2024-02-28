@@ -12,13 +12,13 @@
         <section class="upload-section">
             <form id="uploadForm" action="{{ url_for('upload_file_csv') }}" method="POST" enctype="multipart/form-data">
                 <h2>Input Course (.csv file)</h2>
-                <input type="file" name="file" accept=".csv">
+                <input type="file" name="file_course" accept=".csv">
                 <h2>Input Room (.csv file)</h2>
-                <input type="file" name="file" accept=".csv">
+                <input type="file" name="file_room" accept=".csv">
                 <h2>Input Professor (.csv file)</h2>
-                <input type="file" name="file" accept=".csv">
+                <input type="file" name="file_professor" accept=".csv">
                 <h2>Input Student (.csv file)</h2>
-                <input type="file" name="file" accept=".csv">
+                <input type="file" name="file_student" accept=".csv">
                 <button type="submit">Upload</button>
             </form>                   
             <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>

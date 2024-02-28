@@ -6,7 +6,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = 'static/files'
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 
 @app.route("/")
@@ -29,10 +29,18 @@ def upload_file_csv():
     print(2222)
     if request.method == 'POST':
         print(1111)
-        files = request.files.getlist('file')
-        for file in files:
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))  # Save the uploaded file in 'uploads' folder
+        file_course = request.files['file_course']
+        file_room = request.files['file_room']
+        file_professor = request.files['file_professor']
+        file_student = request.files['file_student']
+        
+        file_course.save(os.path.join(app.config['UPLOAD_FOLDER'], file_course.filename))
+        file_room.save(os.path.join(app.config['UPLOAD_FOLDER'], file_room.filename))
+        file_professor.save(os.path.join(app.config['UPLOAD_FOLDER'], file_professor.filename))
+        file_student.save(os.path.join(app.config['UPLOAD_FOLDER'], file_student.filename))
+        
     return render_template("upload.html", name='upload completed')
+
 
     
 
