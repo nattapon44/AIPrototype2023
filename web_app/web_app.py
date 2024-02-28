@@ -31,8 +31,9 @@ def upload_file_csv():
         print(1111)
         files = request.files.getlist('file')
         for file in files:
-            file.save(app.config['UPLOAD_FOLDER'], file.filename)  # Save the uploaded file in 'uploads' folder
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))  # Save the uploaded file in 'uploads' folder
     return render_template("upload.html", name='upload completed')
+
     
 
     
