@@ -1,10 +1,20 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField
+from werkzeug.utils import secure_filename
+import os
+from wtforms.validators import InputRequired
 import json
 import sys
 import os
 
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = 'static/files'
+class UploadFileForm(FlaskForm):
+    file = FileField("File", validators=[InputRequired()])
+    submit = SubmitField("Upload File")
 
 @app.route("/")
 def home():
@@ -24,12 +34,14 @@ def aboutproject():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
     print(2222)
-    if request.method == 'POST':
-        print(1111)
-        files = request.files.getlist('file')
-        for file in files:
-            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
-    return render_template("upload.html", name='upload completed')
+    form = UploadFileForm()
+    if form.validate_on_submit():
+        file = form.file.data
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename)))
+
+    csv_file = os.listdir(app.config['UPLOAD_FOLDER'])
+    return render_template('upload.html', form=form, csv_file=csv_file)
+    
 
     
 if __name__ == "__main__":
