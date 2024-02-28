@@ -11,14 +11,6 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-@app.route("/web-page-project")
-def webpage():
-    return send_from_directory("/home/nattapon/codes/time-table", "index.html")
-
-@app.route("/LegalDoc/<path:filename>")
-def static_files(filename):
-    return send_from_directory("/home/nattapon/codes/time-table/LegalDoc", filename)
-
 @app.route("/about-us")
 def aboutproject():
     return render_template("aboutus.html")
