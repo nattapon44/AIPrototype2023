@@ -1,8 +1,4 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory
-from wtforms import FileField, SubmitField
-from werkzeug.utils import secure_filename
-import os
-from wtforms.validators import InputRequired
 import json
 import sys
 import os
