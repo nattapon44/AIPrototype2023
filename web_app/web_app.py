@@ -17,7 +17,6 @@ def webpage():
 
 @app.route("/LegalDoc/<path:filename>")
 def static_files(filename):
-    # ส่งไฟล์ CSS หรือรูปภาพจากไดเรกทอรี "LegalDoc"
     return send_from_directory("/home/nattapon/codes/time-table/LegalDoc", filename)
 
 @app.route("/about-us")
