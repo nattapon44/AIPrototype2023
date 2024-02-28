@@ -38,8 +38,8 @@ def upload_file_csv():
         file_room.save(os.path.join(app.config['UPLOAD_FOLDER'], file_room.filename))
         file_professor.save(os.path.join(app.config['UPLOAD_FOLDER'], file_professor.filename))
         file_student.save(os.path.join(app.config['UPLOAD_FOLDER'], file_student.filename))
-        
     return render_template("upload.html", name='upload completed')
+    print(request.files)
 
 
     
