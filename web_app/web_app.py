@@ -1,10 +1,17 @@
-from flask import Flask, request, render_template, make_response, send_file, send_from_directory
+from flask import Flask, request, render_template, make_response, send_file, send_from_directory, redirect, url_for
 import json
+import pandas as pd
 import sys
 import os
 
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = '/home/nattapon/codes/AIPrototype2023/web_app/static'  # Change to your upload directory
+app.config['ALLOWED_EXTENSIONS'] = {'csv'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/request',methods=['POST'])
 def web_service_API():
@@ -33,15 +40,28 @@ def static_files(filename):
 def aboutproject():
     return render_template("aboutus.html")
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file_csv():
-    print(2222)
-    if request.method == 'POST':
-        print(1111)
-        files = request.files.getlist('file')  
-        for file in files:
-            file.save(file.filename) 
-    return render_template("upload.html", name='upload completed')
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        flash('No file part')
+        return redirect(request.url)
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        # You can now use Pandas or another library to read the CSV file
+        df = pd.read_csv(file_path)
+        # Do something with the dataframe here
+        # For example, print the dataframe to the console
+        print(df)
+        return render_template('upload_successful.html', filename=filename)
+    else:
+        flash('Allowed file type is csv')
+        return redirect(request.url)
 
     
 
