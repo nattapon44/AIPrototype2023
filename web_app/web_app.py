@@ -41,7 +41,7 @@ def aboutproject():
     return render_template("aboutus.html")
 
 @app.route('/upload', methods=['POST'])
-def upload_file():
+def upload_file_csv():
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
