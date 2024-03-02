@@ -58,7 +58,7 @@ def upload_file_csv():
         # Do something with the dataframe here
         # For example, print the dataframe to the console
         print(df)
-        return render_template('upload_successful.html', filename=filename)
+        return render_template('upload.html', filename=filename)
     else:
         flash('Allowed file type is csv')
         return redirect(request.url)
