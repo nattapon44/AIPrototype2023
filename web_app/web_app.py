@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response, send_file, send_from_directory
+from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
 import json
 import pandas as pd
 import sys
@@ -19,10 +19,11 @@ def web_service_API():
     payload = request.data.decode("utf-8")
     inmessage = json.loads(payload)
 
-    print(inmessage)
+    # ทำการประมวลผลข้อมูลที่ได้รับ เช่น เรียกใช้โมเดล
+    result = your_model.process_data(inmessage)
 
-    json_data = json.dumps({'y':'received!'})
-    return json_data
+    # ส่งผลลัพธ์กลับไปยังลูกค้า
+    return jsonify(result)
 
 @app.route("/")
 def home():
@@ -42,12 +43,14 @@ def aboutproject():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
-    print(2222)
     if request.method == 'POST':
-        print(1111)
         files = request.files.getlist('file')
         for file in files:
-            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
+            if file and allowed_file(file.filename):
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                # เรียกใช้โมเดลหรือการประมวลผลที่ต้องการทำกับไฟล์ CSV ที่อัปโหลด
+                result = your_model.process_uploaded_file(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                return jsonify(result)
     return render_template("upload.html", name='upload completed')
 
     
