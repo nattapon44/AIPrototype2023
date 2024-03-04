@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
-from model import ilpmodel
+import model
 import json
 import pandas as pd
 import sys
@@ -8,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = '/home/nattapon/codes/AIPrototype2023/web_app/uploads'  # Change to your upload directory
+app.config['UPLOAD_FOLDER'] = '/home/nattapon/codes/AIPrototype2023/web_app/uploads' 
 app.config['ALLOWED_EXTENSIONS'] = {'csv'}
 
 def allowed_file(filename):
@@ -42,17 +42,32 @@ def static_files(filename):
 def aboutproject():
     return render_template("aboutus.html")
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file_csv():
+@app.route('/upload', methods=['POST'])
+def upload_file():
     if request.method == 'POST':
-        files = request.files.getlist('file')
-        for file in files:
-            if file and allowed_file(file.filename):
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                # เรียกใช้โมเดลหรือการประมวลผลที่ต้องการทำกับไฟล์ CSV ที่อัปโหลด
-                result = ilpmodel.process_uploaded_file(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
-                return jsonify(result)
-    return render_template("upload.html", name='upload completed')
+        # Check if the POST request has the file part
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part'})
+
+        file = request.files['file']
+
+        # If the user does not select a file, the browser submits an empty file without a filename
+        if file.filename == '':
+            return jsonify({'error': 'No selected file'})
+
+        # If the file is allowed and exists
+        if file and allowed_file(file.filename):
+            # Process the file using your model
+            result = process_file_with_model(file)
+
+            # Return the result as JSON response
+            return jsonify(result)
+
+def process_file_with_model(file):
+    # Read and process the file using your model
+    # For example, you might read the file content and pass it to your model
+    # Then return the result
+    return {'result': 'Processed successfully'}
 
     
 
