@@ -1,3 +1,21 @@
+import pandas as pd
+
+# Your model and functions here
+
+def load_data_from_csv(file_path):
+    # Read data from CSV file
+    df = pd.read_csv(file_path)
+
+    # Extract necessary data
+    C = df['C'].tolist()
+    R = df['R'].tolist()
+    T = df['T'].tolist()
+    P = df['P'].tolist()
+    S = df['S'].tolist()
+    D = df['D'].tolist()
+
+    return C, R, T, P, S, D
+
 
 def find_ucrdt(c, r, d, t):
 

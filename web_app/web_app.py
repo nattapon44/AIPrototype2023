@@ -43,25 +43,23 @@ def aboutproject():
     return render_template("aboutus.html")
 
 @app.route('/upload', methods=['POST'])
-def upload_file():
+def upload_file_csv():
     if request.method == 'POST':
-        # Check if the POST request has the file part
+        # Check if the post request has the file part
         if 'file' not in request.files:
-            return jsonify({'error': 'No file part'})
-
+            return render_template("upload.html", name='No file part')
         file = request.files['file']
-
-        # If the user does not select a file, the browser submits an empty file without a filename
         if file.filename == '':
-            return jsonify({'error': 'No selected file'})
-
-        # If the file is allowed and exists
+            return render_template("upload.html", name='No selected file')
         if file and allowed_file(file.filename):
-            # Process the file using your model
-            result = process_file_with_model(file)
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            # Return the result as JSON response
-            return jsonify(result)
+            # Load data from CSV and set variables in the model
+            C, R, T, P, S, D = load_data_from_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))  
+            return render_template("upload.html", name='upload completed')
+
+    return render_template("upload.html", name='upload failed') 
 
 def process_file_with_model(file):
     # Read and process the file using your model
