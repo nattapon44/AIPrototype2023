@@ -10,11 +10,82 @@ from pyomo.opt import SolverFactory
 
 app = Flask(__name__)
 
-def process_csv(file_path):
-    data = pd.read_csv(UPLOAD_FOLDER)
-    return data
+def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
+    # โหลดข้อมูลจากไฟล์ CSV
+    courses = pd.read_csv(course_file)
+    rooms = pd.read_csv(room_file)
+    professors = pd.read_csv(professor_file)
+    students = pd.read_csv(student_file)
+    
+    #define
+    D = { 1: 'Monday',
+          2: 'Tuesday',
+          3: 'Wednesday',
+          4: 'Thursday',
+          5: 'Friday'
+        }
 
-def solve_ilp(data):
+    T = { 1: '8 am',
+   	      2: '8:30 am',
+	      3: '9 am',
+	      4: '9:30 am',
+   	      5: '10 am',
+	      6: '10:30 am',
+          7: '11 am',
+          8: '11:30 am',
+   	      9: '1 pm',
+	     10: '1:30 pm',
+	     11: '2 pm',
+   	     12: '2:30 pm',
+	     13: '3 pm',
+         14: '3:30 pm',
+         15: '4 pm',
+   	     16: '4:30 pm',
+	     17: '5 pm',
+	     18: '5:30 pm'
+        }
+
+    def find_ucrdt(c, r, d, t):
+        type_r = R[r]['Type']
+        #print(type_r)
+        type_c = C[c]['type']
+        #print(type_c)
+        if type_r == 'lecture' and 'lab' in type_c:
+            #print("checking room")
+            return 0
+        else:
+            Pp = list(C[c]['teachers'].keys())
+            numteacher = len(Pp)
+            if numteacher == 1:
+                #print("Hello1")
+                p_index = Pp[0]
+                return P[p_index]['weight'][d-1][t-1]
+            elif numteacher >= 2:
+                #print("Hello>1", Pp)
+                min_weight = []
+                for p_index in Pp:
+                    min_weight.append(P[p_index]['weight'][d-1][t-1])
+                return min(min_weight)
+
+    def hc(c):
+        hours_per_week = C[c]["hoursPerWeek"]
+        h_c = sum(hours_per_week)*2
+        return h_c
+    def capr(r):
+        return R[r]['Capacity']
+    def capc(c):
+        return C[c]['courseCapacity']
+    def kp(p):
+        return 6
+    def ks(s):
+        return 6
+    def kc(c):
+        return len(C[c]['hoursPerWeek'])
+    def a_sdt(s, d, t):
+        return S[s]['Availability'][d-1][t-1]
+    def tprime_tc(c, t):
+        hc = C[c]["hoursPerWeek"]
+
     # สร้างโมเดล
     model = ConcreteModel()
     # Sets
@@ -35,12 +106,12 @@ def solve_ilp(data):
     model.w_c = Var(model.C, within=Binary)
     model.w_cd = Var(model.C, model.D, within=Binary)
     model.y_pdt = Var(model.P, model.D, model.T, within=Binary)
-
+    #Objective Funciton
     def Objective_rule(model):
         return sum([(find_ucrdt(c,r,d,t)/hc(c))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
     model.obj = Objective(rule=Objective_rule, sense=maximize)
-
-    # Constraint 1
+    #Constraints
+     # Constraint 1
     model.const1 = ConstraintList()
     for t in T:
         for d in D:
@@ -69,11 +140,8 @@ def solve_ilp(data):
             for d in D:
                 for t in T:
                     model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
-
-    solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
-    solution = solver.solve(model)
-    opt = SolverFactory('glpk')
-    opt.solve(model, tee=True)
+    # สร้างตัวแปรสำหรับเก็บผลลัพธ์และคืนค่า
+    # solution = ...
     return solution
 
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
@@ -113,29 +181,17 @@ def upload_file_csv():
 @app.route('/solve_ilp', methods=['POST'])
 def solve_ilp_endpoint():
     if request.method == 'POST':
-        # ตรวจสอบว่ามีไฟล์ CSV ถูกส่งมาหรือไม่
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file provided'}), 400
-
-        file = request.files['file']
-        # ตรวจสอบว่าไฟล์ถูกส่งมาหรือไม่
-        if file.filename == '':
-            return jsonify({'error': 'No file selected'}), 400
-
-        # บันทึกไฟล์ CSV ไว้ในโฟลเดอร์ที่กำหนดไว้
-        file_path = 'uploaded_file.csv'
-        file.save(file_path)
-
-        # ประมวลผลข้อมูลจากไฟล์ CSV
-        data = process_csv(file_path)
-
-        # แก้ปัญหา ILP ด้วยข้อมูลที่ได้จากไฟล์ CSV
-        solution = solve_ilp(data)
-
-        # ส่งผลลัพธ์กลับไปให้ผู้ใช้
+        # รับไฟล์ CSV จาก request
+        course_file = request.files['course_file']
+        room_file = request.files['room_file']
+        professor_file = request.files['professor_file']
+        student_file = request.files['student_file']
+        
+        # เรียกใช้งานโมเดล Pyomo
+        solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
+        
+        # คืนค่าผลลัพธ์เป็น JSON
         return jsonify(solution)
-    else:
-        return jsonify({'error': 'Method not allowed'}), 405
 
 
     
