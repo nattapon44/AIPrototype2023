@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
 ## import model
+import pandas as pd
 import json
 import sys
 import os
@@ -7,7 +8,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads' 
+app.config['UPLOAD_FOLDER'] = '../AIPrototype2023/web_app/static/uploads' 
 app.config['ALLOWED_EXTENSIONS'] = {'csv'}
 
 def allowed_file(filename):
@@ -45,8 +46,13 @@ def aboutproject():
 def upload_file_csv():
     if request.method == 'POST':
         file = request.files['file']
-        file.save('filename')
-    return render_template("upload.html",name='upload completed')
+        upload_folder =  '../AIPrototype2023/web_app/static/uploads' 
+        file_path = os.path.join(upload_folder)
+
+        # Save the uploaded file
+        data = pd.read_excel(file)
+        file.save(file_path)
+
     
 
     
