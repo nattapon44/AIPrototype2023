@@ -3,6 +3,32 @@ from pyomo import environ as pe
 from pyomo.environ import *
 import sys
 
+D = { 1: 'Monday',
+      2: 'Tuesday',
+      3: 'Wednesday',
+      4: 'Thursday',
+      5: 'Friday'}
+
+T = { 1: '8 am',
+   	  2: '8:30 am',
+	    3: '9 am',
+	    4: '9:30 am',
+   	  5: '10 am',
+	    6: '10:30 am',
+      7: '11 am',
+      8: '11:30 am',
+   	  9: '1 pm',
+	    10: '1:30 pm',
+	    11: '2 pm',
+   	  12: '2:30 pm',
+	    13: '3 pm',
+      14: '3:30 pm',
+      15: '4 pm',
+   	  16: '4:30 pm',
+	    17: '5 pm',
+	    18: '5:30 pm'}
+
+    
 def main():
   def find_ucrdt(c, r, d, t):
     type_r = R[r]['Type']

@@ -4,6 +4,8 @@ import pandas as pd
 import json
 import sys
 import os
+from werkzeug.utils import secure_filename
+
 
 
 app = Flask(__name__)
@@ -41,14 +43,19 @@ def aboutproject():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
-    print(2222)
+    print("File not upload")
     if request.method == 'POST':
-        print(1111)
-        files = request.files.getlist('file')
-        for file in files:
-            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
+        print("Files Upload Completed")
+        files = ['course_file', 'room_file', 'professor_file', 'student_file']
+        for filename in files:
+            file = request.files.get(filename)
+            if file:
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
+
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
