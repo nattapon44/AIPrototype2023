@@ -10,7 +10,7 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = os.path.join('..', 'AIPrototype2023', 'web_app', 'static', 'uploads')
+UPLOAD_FOLDER = '/home/nattapon/outside/ubuntu/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/request',methods=['POST'])
