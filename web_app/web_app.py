@@ -1,14 +1,13 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
 ## import model
 import json
-import pandas as pd
 import sys
 import os
 
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = '/home/nattapon/codes/AIPrototype2023/web_app/uploads' 
+app.config['UPLOAD_FOLDER'] = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads' 
 app.config['ALLOWED_EXTENSIONS'] = {'csv'}
 
 def allowed_file(filename):
@@ -45,12 +44,9 @@ def aboutproject():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
     if request.method == 'POST':
-        print(1111)
-        files = request.files.getlist('file')
-        for file in files:
-            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
-    return render_template("upload.html", name='upload completed')
-
+        file = request.files['file']
+        file.save('filename')
+    return render_template("upload.html",name='upload completed')
     
 
     
