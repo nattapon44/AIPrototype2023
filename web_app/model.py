@@ -196,4 +196,5 @@ def main():
   # แสดงผลลัพธ์
   # model.display()
 
-
+if __name__ == "__main__":
+    main()
