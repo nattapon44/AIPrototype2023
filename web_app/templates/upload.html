@@ -24,7 +24,30 @@
             <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>
         </section>
 
-
+    <script>    
+        document.getElementById('uploadForm').addEventListener('submit', function(event){
+            event.preventDefault(); 
+            
+            fetch("{{ url_for('upload_file_csv') }}", {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => {
+                if (response.ok) {
+                    // แสดงข้อความเมื่ออัปโหลดสำเร็จ
+                    alert('Upload successful!');
+                    // หรือสามารถทำการนำเสนอหน้าใหม่ได้ตามต้องการ
+                    window.location.reload();
+                } else {
+                    throw new Error('Upload failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+    
 
     <footer>
         <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
