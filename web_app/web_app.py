@@ -52,7 +52,7 @@ def upload_file_csv():
         # Save the uploaded file
         data = pd.read_excel(file)
         file.save(file_path)
-
+        return render_template('upload.html')
     
 
     
