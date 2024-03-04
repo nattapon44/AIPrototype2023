@@ -8,11 +8,8 @@ import os
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = '../AIPrototype2023/web_app/static/uploads' 
-app.config['ALLOWED_EXTENSIONS'] = {'csv'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+UPLOAD_FOLDER = '/home/nattapon/outside/ubuntu/AIPrototype2023/web_app/static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/request',methods=['POST'])
 def web_service_API():
@@ -44,17 +41,14 @@ def aboutproject():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
+    print(2222)
     if request.method == 'POST':
-        file = request.files['file']
-        upload_folder =  '../AIPrototype2023/web_app/static/uploads' 
-        file_path = os.path.join(upload_folder)
-
-        # Save the uploaded file
-        data = pd.read_excel(file)
-        file.save(file_path)
-        return render_template('upload.html')
-    
-
+        print(1111)
+        files = request.files.getlist('file')
+        for file in files:
+            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
+        return render_template("upload.html", name='upload completed')
+    return render_template("upload.html")
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
