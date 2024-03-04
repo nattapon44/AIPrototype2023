@@ -40,6 +40,41 @@ def solve_ilp(data):
         return sum([(find_ucrdt(c,r,d,t)/hc(c))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
     model.obj = Objective(rule=Objective_rule, sense=maximize)
 
+    # Constraint 1
+    model.const1 = ConstraintList()
+    for t in T:
+        for d in D:
+            for r in R:
+                model.const1.add(sum(model.x_crdt[c, r, d, t] for c in model.C) <= 1)
+
+    # Constraint 2
+    model.const2 = ConstraintList()
+    for p in P:
+        for d in D:
+            for t in T:
+                model.const2.add(sum(model.x_crdt[c, r, d, t] for r in model.R for c in model.Cp) <= 1)
+
+    # Constraint 3
+    model.const3 = ConstraintList()
+    for r in R:
+        for c in C:
+            for d in D:
+                for t in T:
+                    model.const3.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capr(r))
+
+    # Constraint 4
+    model.const4 = ConstraintList()
+    for c in C:
+        for r in R:
+            for d in D:
+                for t in T:
+                    model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
+
+    solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
+    solution = solver.solve(model)
+    opt = SolverFactory('glpk')
+    opt.solve(model, tee=True)
+    return solution
 
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
