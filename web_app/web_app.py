@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
+from model import ilpmodel
 import json
 import pandas as pd
 import sys
@@ -20,7 +21,7 @@ def web_service_API():
     inmessage = json.loads(payload)
 
     # ทำการประมวลผลข้อมูลที่ได้รับ เช่น เรียกใช้โมเดล
-    result = your_model.process_data(inmessage)
+    result = ilpmodel.process_data(inmessage)
 
     # ส่งผลลัพธ์กลับไปยังลูกค้า
     return jsonify(result)
@@ -49,7 +50,7 @@ def upload_file_csv():
             if file and allowed_file(file.filename):
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                 # เรียกใช้โมเดลหรือการประมวลผลที่ต้องการทำกับไฟล์ CSV ที่อัปโหลด
-                result = your_model.process_uploaded_file(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
+                result = ilpmodel.process_uploaded_file(os.path.join(app.config['UPLOAD_FOLDER'], file.filename))
                 return jsonify(result)
     return render_template("upload.html", name='upload completed')
 
