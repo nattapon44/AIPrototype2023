@@ -1,33 +1,17 @@
-import pandas as pd
+import numpy as np
+from pyomo import environ as pe
+from pyomo.environ import *
+import sys
 
-# Your model and functions here
-
-def load_data_from_csv(file_path):
-    # Read data from CSV file
-    df = pd.read_csv(file_path)
-
-    # Extract necessary data
-    C = df['C'].tolist()
-    R = df['R'].tolist()
-    T = df['T'].tolist()
-    P = df['P'].tolist()
-    S = df['S'].tolist()
-    D = df['D'].tolist()
-
-    return C, R, T, P, S, D
-
-
-def find_ucrdt(c, r, d, t):
-
+def main():
+  def find_ucrdt(c, r, d, t):
     type_r = R[r]['Type']
     #print(type_r)
     type_c = C[c]['type']
     #print(type_c)
-
     if type_r == 'lecture' and 'lab' in type_c:
       #print("checking room")
       return 0
-
     else:
       Pp = list(C[c]['teachers'].keys())
       numteacher = len(Pp)
@@ -42,174 +26,174 @@ def find_ucrdt(c, r, d, t):
           min_weight.append(P[p_index]['weight'][d-1][t-1])
         return min(min_weight)
 
-def hc(c):
-  hours_per_week = C[c]["hoursPerWeek"]
-  h_c = sum(hours_per_week)*2
-  return h_c
+  def hc(c):
+    hours_per_week = C[c]["hoursPerWeek"]
+    h_c = sum(hours_per_week)*2
+    return h_c
 
-def capr(r):
-  return R[r]['Capacity']
+  def capr(r):
+    return R[r]['Capacity']
 
-def capc(c):
-  return C[c]['courseCapacity']
+  def capc(c):
+    return C[c]['courseCapacity']
 
-def kp(p):
-  return 6
+  def kp(p):
+    return 6
 
-def ks(s):
-  return 6
+  def ks(s):
+    return 6
 
-def kc(c):
-  return len(C[c]['hoursPerWeek'])
+  def kc(c):
+    return len(C[c]['hoursPerWeek'])
 
-def a_sdt(s, d, t):
-  return S[s]['Availability'][d-1][t-1]
+  def a_sdt(s, d, t):
+    return S[s]['Availability'][d-1][t-1]
 
-def tprime_tc(c, t):
-  hc = C[c]["hoursPerWeek"]
-
-
-import sys
-import numpy as np
-from pyomo import environ as pe
-from pyomo.environ import *
-
-# สร้างโมเดล
-model = ConcreteModel()
-# Sets
-model.C = Set(initialize=C.keys())
-model.R = Set(initialize=R.keys())
-model.T = Set(initialize=T.keys())
-model.P = Set(initialize=P.keys())
-model.S = Set(initialize=S.keys())
-model.D = Set(initialize=D.keys())
-model.Cp = Set(initialize=C.keys())
-model.Cs = Set(initialize=S.keys())
-model.Rc = Set(initialize=C.keys())
-model.Tp = Set(initialize=P.keys())
-model.Tprime_tc = Set(initialize=T.keys())
-
-#Variables
-model.x_crdt = Var(model.C, model.R, model.D, model.T, within=Binary)
-model.z_scrdt = Var(model.S, model.C, model.R, model.D, model.T, within=Binary)
-model.w_c = Var(model.C, within=Binary)
-model.w_cd = Var(model.C, model.D, within=Binary)
-model.y_pdt = Var(model.P, model.D, model.T, within=Binary)
-
-def Objective_rule(model):
-    return sum([(find_ucrdt(c,r,d,t)/hc(c))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
+  def tprime_tc(c, t):
+    hc = C[c]["hoursPerWeek"]
 
 
-model.obj = Objective(rule=Objective_rule, sense=maximize)
+  import sys
+  import numpy as np
+  from pyomo import environ as pe
+  from pyomo.environ import *
 
-# Constraints
-# Constraint 1
-model.const1 = ConstraintList()
-for t in T:
-  for d in D:
-    for r in R:
-        model.const1.add(sum(model.x_crdt[c, r, d, t] for c in model.C) <= 1)
+  # สร้างโมเดล
+  model = ConcreteModel()
+  # Sets
+  model.C = Set(initialize=C.keys())
+  model.R = Set(initialize=R.keys())
+  model.T = Set(initialize=T.keys())
+  model.P = Set(initialize=P.keys())
+  model.S = Set(initialize=S.keys())
+  model.D = Set(initialize=D.keys())
+  model.Cp = Set(initialize=C.keys())
+  model.Cs = Set(initialize=S.keys())
+  model.Rc = Set(initialize=C.keys())
+  model.Tp = Set(initialize=P.keys())
+  model.Tprime_tc = Set(initialize=T.keys())
 
-# Constraint 2
-model.const2 = ConstraintList()
-for p in P:
-  for d in D:
-    for t in T:
-        model.const2.add(sum(model.x_crdt[c, r, d, t] for r in model.R for c in model.Cp) <= 1)
+  #Variables
+  model.x_crdt = Var(model.C, model.R, model.D, model.T, within=Binary)
+  model.z_scrdt = Var(model.S, model.C, model.R, model.D, model.T, within=Binary)
+  model.w_c = Var(model.C, within=Binary)
+  model.w_cd = Var(model.C, model.D, within=Binary)
+  model.y_pdt = Var(model.P, model.D, model.T, within=Binary)
 
-# Constraint 3
-model.const3 = ConstraintList()
-for r in R:
-    for c in C:
-      for d in D:
-        for t in T:
-            model.const3.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capr(r))
+  def Objective_rule(model):
+      return sum([(find_ucrdt(c,r,d,t)/hc(c))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
 
-# Constraint 4
-model.const4 = ConstraintList()
-for c in C:
-    for r in R:
-      for d in D:
-        for t in T:
-            model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
 
-# Constraint 6
-model.const6 = ConstraintList()
-for c in C:
-  for r in R:
+  model.obj = Objective(rule=Objective_rule, sense=maximize)
+
+  # Constraints
+  # Constraint 1
+  model.const1 = ConstraintList()
+  for t in T:
+    for d in D:
+      for r in R:
+          model.const1.add(sum(model.x_crdt[c, r, d, t] for c in model.C) <= 1)
+
+  # Constraint 2
+  model.const2 = ConstraintList()
+  for p in P:
     for d in D:
       for t in T:
-        model.const6.add(model.x_crdt[c, r, d, 8]+ model.x_crdt[c, r, d, 9] <= 1)
+          model.const2.add(sum(model.x_crdt[c, r, d, t] for r in model.R for c in model.Cp) <= 1)
 
-# Constraint 7
-model.const7 = ConstraintList()
-for c in C:
-  model.const7.add(model.w_cd[c, 1] + model.w_cd[c, 2] <= 1)
-  model.const7.add(model.w_cd[c, 2] + model.w_cd[c, 3] <= 1)
-  model.const7.add(model.w_cd[c, 3] + model.w_cd[c, 4] <= 1)
-  model.const7.add(model.w_cd[c, 4] + model.w_cd[c, 5] <= 1)
+  # Constraint 3
+  model.const3 = ConstraintList()
+  for r in R:
+      for c in C:
+        for d in D:
+          for t in T:
+              model.const3.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capr(r))
 
-# Constraint 9
-model.const9 = ConstraintList()
-for s in S:
-    for c in C:
-        for r in R:
-          for d in D:
-            for t in T:
-                model.const9.add(model.x_crdt[c, r, d, t] <= model.z_scrdt[s, c, r, d, t])
+  # Constraint 4
+  model.const4 = ConstraintList()
+  for c in C:
+      for r in R:
+        for d in D:
+          for t in T:
+              model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
 
-# Constraint 10
-model.const10 = ConstraintList()
-for p in P:
+  # Constraint 6
+  model.const6 = ConstraintList()
   for c in C:
     for r in R:
       for d in D:
         for t in T:
-          model.const10.add(model.x_crdt[c, r, d, t] <= model.y_pdt[p, d, t])
+          model.const6.add(model.x_crdt[c, r, d, 8]+ model.x_crdt[c, r, d, 9] <= 1)
 
-# Constraint 11
-model.const11 = ConstraintList()
-for p in P:
-  model.const11.add(sum(model.y_pdt[p, d, t] for d in model.D for t in model.T) <= kp(p)  )
+  # Constraint 7
+  model.const7 = ConstraintList()
+  for c in C:
+    model.const7.add(model.w_cd[c, 1] + model.w_cd[c, 2] <= 1)
+    model.const7.add(model.w_cd[c, 2] + model.w_cd[c, 3] <= 1)
+    model.const7.add(model.w_cd[c, 3] + model.w_cd[c, 4] <= 1)
+    model.const7.add(model.w_cd[c, 4] + model.w_cd[c, 5] <= 1)
 
-# Constraint 12
-model.const12 = ConstraintList()
-for s in S:
-  model.const12.add(sum(model.z_scrdt[s, c, r, d, t] for c in model.C for r in model.R) <= ks(s)  )
+  # Constraint 9
+  model.const9 = ConstraintList()
+  for s in S:
+      for c in C:
+          for r in R:
+            for d in D:
+              for t in T:
+                  model.const9.add(model.x_crdt[c, r, d, t] <= model.z_scrdt[s, c, r, d, t])
 
-# Constraint 13
-model.const13 = ConstraintList()
-for c in C:
-  model.const13.add(sum(model.w_cd[c, d] for d in D) == kc(c))
+  # Constraint 10
+  model.const10 = ConstraintList()
+  for p in P:
+    for c in C:
+      for r in R:
+        for d in D:
+          for t in T:
+            model.const10.add(model.x_crdt[c, r, d, t] <= model.y_pdt[p, d, t])
 
-# Constatint 14
-model.const14 = ConstraintList()
-for s in S:
+  # Constraint 11
+  model.const11 = ConstraintList()
+  for p in P:
+    model.const11.add(sum(model.y_pdt[p, d, t] for d in model.D for t in model.T) <= kp(p)  )
+
+  # Constraint 12
+  model.const12 = ConstraintList()
+  for s in S:
+    model.const12.add(sum(model.z_scrdt[s, c, r, d, t] for c in model.C for r in model.R) <= ks(s)  )
+
+  # Constraint 13
+  model.const13 = ConstraintList()
+  for c in C:
+    model.const13.add(sum(model.w_cd[c, d] for d in D) == kc(c))
+
+  # Constatint 14
+  model.const14 = ConstraintList()
+  for s in S:
+    for c in C:
+      for r in R:
+        model.const14.add(model.z_scrdt[s, c, r, d, t] <= a_sdt(s,d,t))
+
+  twoucrdt = 2*find_ucrdt(c,r,d,t)
+  print(twoucrdt)
+
+  # Constraint 15
+  model.const15 = ConstraintList()
   for c in C:
     for r in R:
-      model.const14.add(model.z_scrdt[s, c, r, d, t] <= a_sdt(s,d,t))
+      for d in D:
+        for t in T:
+          model.const15.add(model.x_crdt[c, r, d, t] <= twoucrdt)
 
-twoucrdt = 2*find_ucrdt(c,r,d,t)
-print(twoucrdt)
+  solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
+  solution = solver.solve(model)
 
-# Constraint 15
-model.const15 = ConstraintList()
-for c in C:
-  for r in R:
-    for d in D:
-      for t in T:
-        model.const15.add(model.x_crdt[c, r, d, t] <= twoucrdt)
+  from pyomo.opt import SolverFactory
 
-solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
-solution = solver.solve(model)
+  # กำหนด Solver
+  opt = SolverFactory('glpk')
+  opt.solve(model, tee=True)
 
-from pyomo.opt import SolverFactory
-
-# กำหนด Solver
-opt = SolverFactory('glpk')
-opt.solve(model, tee=True)
-
-# แสดงผลลัพธ์
-# model.display()
+  # แสดงผลลัพธ์
+  # model.display()
 
 
