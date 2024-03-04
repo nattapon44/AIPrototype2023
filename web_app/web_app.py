@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
-import model
+## import model
 import json
 import pandas as pd
 import sys
@@ -42,30 +42,14 @@ def static_files(filename):
 def aboutproject():
     return render_template("aboutus.html")
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['GET', 'POST'])
 def upload_file_csv():
     if request.method == 'POST':
-        # Check if the post request has the file part
-        if 'file' not in request.files:
-            return render_template("upload.html", name='No file part')
-        file = request.files['file']
-        if file.filename == '':
-            return render_template("upload.html", name='No selected file')
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-            # Load data from CSV and set variables in the model
-            C, R, T, P, S, D = load_data_from_csv(os.path.join(app.config['UPLOAD_FOLDER'], filename))  
-            return render_template("upload.html", name='upload completed')
-
-    return render_template("upload.html", name='upload failed') 
-
-def process_file_with_model(file):
-    # Read and process the file using your model
-    # For example, you might read the file content and pass it to your model
-    # Then return the result
-    return {'result': 'Processed successfully'}
+        print(1111)
+        files = request.files.getlist('file')
+        for file in files:
+            file.save(file.filename)  # Save the uploaded file in 'uploads' folder
+    return render_template("upload.html", name='upload completed')
 
     
 
