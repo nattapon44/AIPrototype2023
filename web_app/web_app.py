@@ -11,8 +11,9 @@ import numpy as np
 
 app = Flask(__name__)
 
-def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
+app.secret_key = '1s5d1as3f8w15f'
 
+def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
     course = pd.read_excel(course_file)
     C = {}
     for idx, row in course.iterrows():
