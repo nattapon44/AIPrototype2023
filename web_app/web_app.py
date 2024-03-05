@@ -38,16 +38,23 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         }
     df3 = pd.read_csv(professor_file)
     P = {}
+    current_professor_id = 1
     for idx, row in df3.iterrows():
-        professor_id = idx + 1  # รหัสอาจารย์
-        courses = {}  # เก็บรายวิชาที่สอน
-        for i, course in enumerate(row['course'].split(',') if isinstance(row['course'], str) else [row['course']]):
-            courses[i+1] = str(course).strip()  # รหัสวิชา
-        P[professor_id] = {
-            'Name': row['Name'],
-            'course': courses,
-            'weight': [weights.split(',') if isinstance(weights, str) else weights for weights in row[2:]]
-        }
+        if pd.notna(row['Name']):
+            current_professor_name = row['Name']
+            P[current_professor_id] = {'Name': current_professor_name, 'course': {}, 'weight': []}
+            current_course_id = 1
+        if pd.notna(row['course']):
+            courses = [course.strip() for course in row['course'].split(',')]
+            for course in courses:
+                P[current_professor_id]['course'][current_course_id] = course
+                current_course_id += 1
+        if pd.notna(row['weight']):
+            P[current_professor_id]['weight'].append([float(w) for w in row['weight'].split()])
+
+        # เพิ่มค่า id ของอาจารย์
+        if idx < len(df3) - 1 and pd.isna(df3.iloc[idx + 1]['Name']):
+            current_professor_id += 1
     df4 = pd.read_csv(student_file)
     S = {}
     for idx, row in df4.iterrows():
