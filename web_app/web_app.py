@@ -41,7 +41,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     for idx, row in df3.iterrows():
         professor_id = idx + 1  # รหัสอาจารย์
         courses = {}  # เก็บรายวิชาที่สอน
-        for i, course in enumerate(row['course'].split(',')):
+        for i, course in enumerate(row['course'].split(',') if isinstance(row['course'], str) else [row['course']]):
             courses[i+1] = course.strip()  # รหัสวิชา
         P[professor_id] = {
             'Name': row['Name'],
