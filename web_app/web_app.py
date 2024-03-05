@@ -229,7 +229,7 @@ def upload_file_excel():
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
 
-@app.route('/solve_ilp', methods=['POST'])
+@app.route('/solve_ilp', methods=['GET', 'POST'])
 def solve_ilp_endpoint():
     if request.method == 'POST':
         # รับไฟล์ CSV จาก request
