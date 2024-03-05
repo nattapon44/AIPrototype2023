@@ -42,7 +42,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         professor_id = idx + 1  # รหัสอาจารย์
         courses = {}  # เก็บรายวิชาที่สอน
         for i, course in enumerate(row['course'].split(',') if isinstance(row['course'], str) else [row['course']]):
-            courses[i+1] = course.strip()  # รหัสวิชา
+            courses[i+1] = str(course).strip()  # รหัสวิชา
         P[professor_id] = {
             'Name': row['Name'],
             'course': courses,
