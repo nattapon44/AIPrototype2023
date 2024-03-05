@@ -199,7 +199,7 @@ def solve_ilp_endpoint():
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
         # คืนค่าผลลัพธ์เป็น JSON
-        return jsonify(solution)
+        return render_template("solution.html", solution=solution)
 
 
     
