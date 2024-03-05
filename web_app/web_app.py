@@ -49,8 +49,10 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             for course in courses:
                 P[current_professor_id]['course'][current_course_id] = course
                 current_course_id += 1
-        if pd.notna(row['weight']):
+        if isinstance(row['weight'], str):
             P[current_professor_id]['weight'].append([float(w) for w in row['weight'].split()])
+        else:
+            P[current_professor_id]['weight'].append([float(row['weight'])])
 
         # เพิ่มค่า id ของอาจารย์
         if idx < len(df3) - 1 and pd.isna(df3.iloc[idx + 1]['Name']):
