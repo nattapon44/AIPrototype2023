@@ -54,16 +54,25 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         major = row['Major']
         year = row['Year']
         courses = {}  # เก็บรายวิชาที่ลงทะเบียน
-        for i, course in enumerate(row['courseRegister'].split(',')):
-            courses[i+1] = course.strip()  # รหัสวิชา
+        course_register = row['courseRegister']
+        if isinstance(course_register, str):
+            for i, course in enumerate(course_register.split(',')):
+                courses[i+1] = course.strip()  # รหัสวิชา
+        else:
+            courses[1] = course_register  # รหัสวิชา (หากไม่ใช่ string)
+        
         availability_data = row[3:]
-        availability = np.array([list(map(float, str(availability_data).split(',')))]) if isinstance(availability_data, str) else availability_data
+        if isinstance(availability_data, str):
+            availability = np.array([list(map(float, availability_data.split(',')))])
+        else:
+            availability = availability_data
+        
         S[idx + 1] = {
             'Major': major,
             'Year': year,
             'courseRegister': courses,
             'Availability': availability
-        }
+    }
     #define
     D = { 1: 'Monday',
           2: 'Tuesday',
