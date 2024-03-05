@@ -12,10 +12,10 @@ app = Flask(__name__)
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
     # โหลดข้อมูลจากไฟล์ CSV
-    courses = pd.read_csv(course_file)
-    rooms = pd.read_csv(room_file)
-    professors = pd.read_csv(professor_file)
-    students = pd.read_csv(student_file)
+    C = pd.read_csv(course_file)
+    R = pd.read_csv(room_file)
+    P = pd.read_csv(professor_file)
+    S = pd.read_csv(student_file)
     
     #define
     D = { 1: 'Monday',
@@ -89,16 +89,16 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # สร้างโมเดล
     model = ConcreteModel()
     # Sets
-    model.C = Set(initialize=C.keys())
-    model.R = Set(initialize=R.keys())
+    model.C = Set(initialize=C.set_index.to_dict())
+    model.R = Set(initialize=R.set_index.to_dict())
     model.T = Set(initialize=T.keys())
-    model.P = Set(initialize=P.keys())
-    model.S = Set(initialize=S.keys())
+    model.P = Set(initialize=P.set_index.to_dict())
+    model.S = Set(initialize=S.set_index.to_dict())
     model.D = Set(initialize=D.keys())
-    model.Cp = Set(initialize=C.keys())
-    model.Cs = Set(initialize=S.keys())
-    model.Rc = Set(initialize=C.keys())
-    model.Tp = Set(initialize=P.keys())
+    model.Cp = Set(initialize=C.set_index.to_dict())
+    model.Cs = Set(initialize=C.set_index.to_dict())
+    model.Rc = Set(initialize=R.set_index.to_dict())
+    model.Tp = Set(initialize=P.set_index.to_dict())
     model.Tprime_tc = Set(initialize=T.keys())
     #Variables
     model.x_crdt = Var(model.C, model.R, model.D, model.T, within=Binary)
