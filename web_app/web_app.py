@@ -308,27 +308,15 @@ def solve_ilp_endpoint():
         professor_file = request.files['professor_file']
         student_file = request.files['student_file']
         
-        # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        # แปลงข้อมูลเป็นรูปแบบที่รองรับ JSON ได้
-        solution_data = process_solution(solution)
-        
-        # แปลงข้อมูลเป็น JSON
-        solution_json = json.dumps(solution_data)
-        
-        # ส่งข้อมูลไปยังเทมเพลต HTML
-        return render_template("solution.html", solution=solution_json)
+        return render_template("solution.html", solution=solution)
     return render_template("solution.html")
-def process_solution(solution):
-    # ทำการปรับโครงสร้างข้อมูลตามความเหมาะสมของคุณ
-    # ยกตัวอย่าง: การแปลงข้อมูลจาก ListContainer เป็นรูปแบบที่เหมาะสมสำหรับ JSON
-    processed_data = []
-    for item in solution:
-        processed_item = {}  # สร้างโครงสร้างข้อมูลใหม่ที่เหมาะสมสำหรับ JSON
-        # ปรับโครงสร้างข้อมูลตามความเหมาะสมของคุณ
-        processed_data.append(processed_item)
-    return processed_data
+
+@app.route('/solution', methods=['GET', 'POST'])
+def solution():
+    return render_template("solution.html")
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
