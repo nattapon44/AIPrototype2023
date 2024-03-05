@@ -318,6 +318,26 @@ def solve_ilp_endpoint():
 def solution():
     return render_template("solution.html")
 
+@app.route('/download_file_1')
+def download_file_1():
+    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/course_template.xlsx'
+    return send_file(file_path, as_attachment=True)
+
+@app.route('/download_file_2')
+def download_file_2():
+    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/professor_template.xlsx'
+    return send_file(file_path, as_attachment=True)
+
+@app.route('/download_file_3')
+def download_file_3():
+    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/room_template.xlsx'
+    return send_file(file_path, as_attachment=True)
+
+@app.route('/download_file_4')
+def download_file_4():
+    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/student_template.xlsx'
+    return send_file(file_path, as_attachment=True)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
