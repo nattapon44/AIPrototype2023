@@ -297,6 +297,8 @@ def upload_file_excel():
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
 
+from flask import session
+
 @app.route('/solve_ilp', methods=['GET', 'POST'])
 def solve_ilp_endpoint():
     if request.method == 'POST':
@@ -309,14 +311,16 @@ def solve_ilp_endpoint():
         # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        return redirect(url_for('show_solution', solution=solution))
+        # เก็บผลลัพธ์ใน session
+        session['solution'] = solution
+        return redirect(url_for('show_solution'))
     return render_template("solution.html")
 
 @app.route('/solution')
 def show_solution():
-    # รับข้อมูล Solution จาก URL
-    solution = request.args.get('solution')
+    # รับข้อมูล Solution จาก session
+    solution = session.get('solution')
     return render_template("solution.html", solution=solution)
-    
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
