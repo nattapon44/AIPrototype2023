@@ -89,16 +89,16 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # สร้างโมเดล
     model = ConcreteModel()
     # Sets
-    model.C = Set(initialize=C.index.tolist())
-    model.R = Set(initialize=R.index.tolist())
+    model.C = Set(initialize=C.index)
+    model.R = Set(initialize=R.index)
     model.T = Set(initialize=T.keys())
-    model.P = Set(initialize=P.index.tolist())
-    model.S = Set(initialize=S.index.tolist())
+    model.P = Set(initialize=P.index)
+    model.S = Set(initialize=S.index)
     model.D = Set(initialize=D.keys())
-    model.Cp = Set(initialize=C.index.tolist())
-    model.Cs = Set(initialize=C.index.tolist())
-    model.Rc = Set(initialize=R.index.tolist())
-    model.Tp = Set(initialize=P.index.tolist())
+    model.Cp = Set(initialize=C.index)
+    model.Cs = Set(initialize=S.index)
+    model.Rc = Set(initialize=C.index)
+    model.Tp = Set(initialize=P.index)
     model.Tprime_tc = Set(initialize=T.keys())
     #Variables
     model.x_crdt = Var(model.C, model.R, model.D, model.T, within=Binary)
@@ -198,7 +198,6 @@ def solve_ilp_endpoint():
         # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        # คืนค่าผลลัพธ์เป็น JSON
         return render_template("solution.html", solution=solution)
     return render_template("solution.html")
 
