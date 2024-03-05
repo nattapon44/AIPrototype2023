@@ -319,7 +319,7 @@ def solve_ilp_endpoint():
         
         # ส่งข้อมูลไปยังเทมเพลต HTML
         return render_template("solution.html", solution=solution_json)
-
+    return render_template("solution.html")
 def process_solution(solution):
     # ทำการปรับโครงสร้างข้อมูลตามความเหมาะสมของคุณ
     # ยกตัวอย่าง: การแปลงข้อมูลจาก ListContainer เป็นรูปแบบที่เหมาะสมสำหรับ JSON
