@@ -200,7 +200,7 @@ def solve_ilp_endpoint():
         
         # คืนค่าผลลัพธ์เป็น JSON
         return render_template("solution.html", solution=solution)
-
+    return render_template("solution.html")
 
     
 if __name__ == "__main__":
