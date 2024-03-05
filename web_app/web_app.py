@@ -56,7 +56,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         courses = {}  # เก็บรายวิชาที่ลงทะเบียน
         for i, course in enumerate(row['courseRegister'].split(',')):
             courses[i+1] = course.strip()  # รหัสวิชา
-        availability = np.array([list(map(float, row[3:].tolist()))])  # การเข้าร่วม
+        availability = np.array([list(map(float, row[3:].astype(str).split(',')))])  # การเข้าร่วม
         S[idx + 1] = {
             'Major': major,
             'Year': year,
