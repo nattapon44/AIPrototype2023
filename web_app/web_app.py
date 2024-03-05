@@ -14,7 +14,7 @@ app = Flask(__name__)
 app.secret_key = '1s5d1as3f8w15f'
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
-    course = pd.read_excel(course_file)
+    course = pd.read_excel(course_file, engine='openpyxl')
     C = {}
     for idx, row in course.iterrows():
         teachers_dict = {}
@@ -30,7 +30,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             "type": course_type
         }
 
-    room = pd.read_excel(room_file)
+    room = pd.read_excel(room_file, engine='openpyxl')
     R = {}
     for idx, row in room.iterrows():
         R[idx+1] = {
@@ -39,7 +39,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             "Type": row['Type']
         }
 
-    professor = pd.read_excel(professor_file)
+    professor = pd.read_excel(professor_file, engine='openpyxl')
     professor.fillna('')
     P = {}
     for index, row in professor.iterrows():
@@ -51,7 +51,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     for prof_id in P:
         P[prof_id]['weight'] = [[float(w) if pd.notna(w) else w for w in sublist] for sublist in P[prof_id]['weight']]
 
-    student = pd.read_excel(student_file)
+    student = pd.read_excel(student_file, engine='openpyxl')
     student.fillna('')
     S = {}
     for index, row in student.iterrows():
