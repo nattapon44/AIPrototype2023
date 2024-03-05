@@ -46,7 +46,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         P[professor_id] = {
             'Name': row['Name'],
             'course': courses,
-            'weight': [list(map(float, weights.split(','))) for weights in row[2:]]
+            'weight': [list(map(float, weights.split(','))) if isinstance(weights, str) else weights for weights in row[2:]]
         }
     df4 = pd.read_csv(student_file, sep='\t')
     S = {}
