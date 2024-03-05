@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify
+from flask import Flask, request, render_template, make_response, send_file, send_from_directory, jsonify, redirect
 import pandas as pd
 import json
 import sys
@@ -241,9 +241,14 @@ def solve_ilp_endpoint():
         # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        return render_template("solution.html", solution=solution)
+        return redirect(url_for('show_solution', solution=solution))
     return render_template("solution.html")
 
+@app.route('/solution')
+def show_solution():
+    # รับข้อมูล Solution จาก URL
+    solution = request.args.get('solution')
+    return render_template("solution.html", solution=solution)
     
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
