@@ -183,6 +183,74 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             for d in D:
                 for t in T:
                     model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
+    
+    # Constraint 6
+    model.const6 = ConstraintList()
+    for c in C:
+        for r in R:
+            for d in D:
+                for t in T:
+                    model.const6.add(model.x_crdt[c, r, d, 8]+ model.x_crdt[c, r, d, 9] <= 1)
+
+    # Constraint 7
+    model.const7 = ConstraintList()
+    for c in C:
+        model.const7.add(model.w_cd[c, 1] + model.w_cd[c, 2] <= 1)
+        model.const7.add(model.w_cd[c, 2] + model.w_cd[c, 3] <= 1)
+        model.const7.add(model.w_cd[c, 3] + model.w_cd[c, 4] <= 1)
+        model.const7.add(model.w_cd[c, 4] + model.w_cd[c, 5] <= 1)
+
+    # Constraint 9
+    model.const9 = ConstraintList()
+    for s in S:
+        for c in C:
+            for r in R:
+                for d in D:
+                    for t in T:
+                        model.const9.add(model.x_crdt[c, r, d, t] <= model.z_scrdt[s, c, r, d, t])
+
+    # Constraint 10
+    model.const10 = ConstraintList()
+    for p in P:
+        for c in C:
+            for r in R:
+                for d in D:
+                    for t in T:
+                        model.const10.add(model.x_crdt[c, r, d, t] <= model.y_pdt[p, d, t])
+
+    # Constraint 11
+    model.const11 = ConstraintList()
+    for p in P:
+        model.const11.add(sum(model.y_pdt[p, d, t] for d in model.D for t in model.T) <= kp(p)  )
+
+    # Constraint 12
+    model.const12 = ConstraintList()
+    for s in S:
+        model.const12.add(sum(model.z_scrdt[s, c, r, d, t] for c in model.C for r in model.R) <= ks(s)  )
+
+    # Constraint 13
+    model.const13 = ConstraintList()
+    for c in C:
+        model.const13.add(sum(model.w_cd[c, d] for d in D) == kc(c))
+
+    # Constatint 14
+    model.const14 = ConstraintList()
+    for s in S:
+        for c in C:
+            for r in R:
+                model.const14.add(model.z_scrdt[s, c, r, d, t] <= a_sdt(s,d,t))
+
+    twoucrdt = 2*find_ucrdt(c,r,d,t)
+    print(twoucrdt)
+
+    # Constraint 15
+    model.const15 = ConstraintList()
+    for c in C:
+        for r in R:
+            for d in D:
+                for t in T:
+                    model.const15.add(model.x_crdt[c, r, d, t] <= twoucrdt)
+            
     # สร้างตัวแปรสำหรับเก็บผลลัพธ์และคืนค่า
     # solution = ...
     solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
