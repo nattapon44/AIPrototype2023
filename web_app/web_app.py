@@ -8,6 +8,7 @@ from pyomo import environ as pe
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
 import numpy as np
+from flask import session
 
 app = Flask(__name__)
 
@@ -298,8 +299,6 @@ def upload_file_excel():
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
 
-from flask import session
-
 @app.route('/solve_ilp', methods=['GET', 'POST'])
 def solve_ilp_endpoint():
     if request.method == 'POST':
@@ -312,17 +311,24 @@ def solve_ilp_endpoint():
         # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        solution_json = json.dumps(solution)
-        # เก็บผลลัพธ์ใน session
-        session['solution'] = solution
-        return redirect(url_for('show_solution'))
-    return render_template("solution.html", solution=solution_json)
+        # แปลงข้อมูลเป็นรูปแบบที่รองรับ JSON ได้
+        solution_data = process_solution(solution)
+        
+        # แปลงข้อมูลเป็น JSON
+        solution_json = json.dumps(solution_data)
+        
+        # ส่งข้อมูลไปยังเทมเพลต HTML
+        return render_template("solution.html", solution=solution_json)
 
-@app.route('/solution')
-def show_solution():
-    # รับข้อมูล Solution จาก session
-    solution = session.get('solution')
-    return render_template("solution.html", solution=solution)
+def process_solution(solution):
+    # ทำการปรับโครงสร้างข้อมูลตามความเหมาะสมของคุณ
+    # ยกตัวอย่าง: การแปลงข้อมูลจาก ListContainer เป็นรูปแบบที่เหมาะสมสำหรับ JSON
+    processed_data = []
+    for item in solution:
+        processed_item = {}  # สร้างโครงสร้างข้อมูลใหม่ที่เหมาะสมสำหรับ JSON
+        # ปรับโครงสร้างข้อมูลตามความเหมาะสมของคุณ
+        processed_data.append(processed_item)
+    return processed_data
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug=True,port=5001)
