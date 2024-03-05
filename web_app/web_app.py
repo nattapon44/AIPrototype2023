@@ -46,9 +46,9 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         }
 
     def find_ucrdt(c, r, d, t):
-        type_r = R[r]['Type']
+        type_r = R.loc[r]['Type']
         #print(type_r)
-        type_c = C[c]['type']
+        type_c = C.loc[c]['type']
         #print(type_c)
         if type_r == 'lecture' and 'lab' in type_c:
             #print("checking room")
