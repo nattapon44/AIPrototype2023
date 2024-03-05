@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
 
-    df1 = pd.read_csv('course_file')
+    df1 = pd.read_csv(course_file)
     C = {}
     for idx, row in df1.iterrows():
         course_id = int(row['courseName'][2:])  # ดึงรหัสวิชา
@@ -27,7 +27,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             'hoursPerWeek': [int(hour) for hour in row['hourPerWeek'].split(',')],
             'type': row['type'].split(',')
         }
-    df2 = pd.read_csv('room_file')
+    df2 = pd.read_csv(room_file)
     R = {}
     for idx, row in df2.iterrows():
         room_id = idx + 1  # รหัสห้อง
