@@ -48,7 +48,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             'course': courses,
             'weight': [weights.split(',') if isinstance(weights, str) else weights for weights in row[2:]]
         }
-    df4 = pd.read_csv(student_file, sep='\t')
+    df4 = pd.read_csv(student_file)
     S = {}
     for idx, row in df4.iterrows():
         major = row['Major']
