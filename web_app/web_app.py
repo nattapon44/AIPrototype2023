@@ -13,75 +13,53 @@ app = Flask(__name__)
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
 
-    df1 = pd.read_csv(course_file)
+    course = pd.read_excel(course_file)
     C = {}
-    for idx, row in df1.iterrows():
-        course_id = int(row['courseName'][2:])  # ดึงรหัสวิชา
-        teachers = {}  # สร้าง dictionary เพื่อเก็บข้อมูลอาจารย์
-        for teacher_id, teacher_name in enumerate(row['teachers'].split(','), start=1):
-            teachers[teacher_id] = teacher_name.strip()  # ลบช่องว่างด้านหน้าและด้านหลังของชื่ออาจารย์
-        C[course_id] = {
-            'courseName': row['courseName'],
-            'teachers': teachers,
-            'courseCapacity': row['courseCapacity'],
-            'hoursPerWeek': [int(hour) for hour in row['hourPerWeek'].split(',')],
-            'type': row['type'].split(',')
+    for idx, row in course.iterrows():
+        teachers_dict = {}
+        for i, teacher in enumerate(row['teachers'].split(','), start=1):
+            teachers_dict[i] = teacher.strip()  # Strip whitespace from teacher names
+        hours_per_week = [int(x) for x in row['hourPerWeek'].split(',')]
+        course_type = row['type'].split(',')
+        C[idx+1] = {
+            "courseName": row['courseName'],
+            "teachers": teachers_dict,
+            "courseCapacity": row['courseCapacity'],
+            "hoursPerWeek": hours_per_week,
+            "type": course_type
         }
-    df2 = pd.read_csv(room_file)
-    R = {}
-    for idx, row in df2.iterrows():
-        room_id = idx + 1  # รหัสห้อง
-        R[room_id] = {
-            'Name': row['Name'],
-            'Capacity': row['Capacity'],
-            'Type': row['Type']
-        }
-    df3 = pd.read_csv(professor_file)
-    P = {}
-    current_professor_id = 1
-    for idx, row in df3.iterrows():
-        if pd.notna(row['Name']):
-            current_professor_name = row['Name']
-            P[current_professor_id] = {'Name': current_professor_name, 'course': {}, 'weight': []}
-            current_course_id = 1
-        if pd.notna(row['course']):
-            courses = [course.strip() for course in row['course'].split(',')]
-            for course in courses:
-                P[current_professor_id]['course'][current_course_id] = course
-                current_course_id += 1
-        if isinstance(row['weight'], str):
-            P[current_professor_id]['weight'].append([float(w) for w in row['weight'].split()])
-        else:
-            P[current_professor_id]['weight'].append([float(row['weight'])])
 
-        # เพิ่มค่า id ของอาจารย์
-        if idx < len(df3) - 1 and pd.isna(df3.iloc[idx + 1]['Name']):
-            current_professor_id += 1
-    df4 = pd.read_csv(student_file)
+    room = pd.read_excel(room_file)
+    R = {}
+    for idx, row in room.iterrows():
+        R[idx+1] = {
+            "Name": row['Name'],
+            "Capacity": row['Capacity'],
+            "Type": row['Type']
+        }
+
+    professor = pd.read_excel(professor_file)
+    professor.fillna('')
+    P = {}
+    for index, row in professor.iterrows():
+        if pd.notna(row['Name']):
+            prof_id = len(P) + 1
+            P[prof_id] = {'Name': row['Name'], 'course': {}, 'weight': []}
+        P[prof_id]['course'][index+1] = row['course']
+        P[prof_id]['weight'].append(list(row[2:]))
+    for prof_id in P:
+        P[prof_id]['weight'] = [[float(w) if pd.notna(w) else w for w in sublist] for sublist in P[prof_id]['weight']]
+
+    student = pd.read_excel(student_file)
+    student.fillna('')
     S = {}
-    for idx, row in df4.iterrows():
-        major = row['Major']
-        year = row['Year']
-        courses = {}  # เก็บรายวิชาที่ลงทะเบียน
-        course_register = row['courseRegister']
-        if isinstance(course_register, str):
-            for i, course in enumerate(course_register.split(',')):
-                courses[i+1] = course.strip()  # รหัสวิชา
-        else:
-            courses[1] = course_register  # รหัสวิชา (หากไม่ใช่ string)
-        
-        availability_data = row[3:]
-        if isinstance(availability_data, str):
-            availability = np.array([list(map(float, availability_data.split(',')))])
-        else:
-            availability = availability_data
-        
-        S[idx + 1] = {
-            'Major': major,
-            'Year': year,
-            'courseRegister': courses,
-            'Availability': availability
-    }
+    for index, row in student.iterrows():
+        if pd.notna(row['Major']):
+            stud_id = len(S) + 1
+            S[stud_id] = {'Major': row['Major'], 'Year': row['Year'], 'courseRegister': {}, 'Availability': []}
+        S[stud_id]['courseRegister'][index+1] = row['courseRegister']
+        S[stud_id]['Availability'].append(list(row[3:]))
+    
     #define
     D = { 1: 'Monday',
           2: 'Tuesday',
@@ -237,7 +215,7 @@ def aboutproject():
     return render_template("aboutus.html")
 
 @app.route('/upload', methods=['GET', 'POST'])
-def upload_file_csv():
+def upload_file_excel():
     print("File not upload")
     if request.method == 'POST':
         print("Files Upload Completed")
