@@ -7,16 +7,62 @@ from werkzeug.utils import secure_filename
 from pyomo import environ as pe
 from pyomo.environ import *
 from pyomo.opt import SolverFactory
+import numpy as np
 
 app = Flask(__name__)
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
-    # โหลดข้อมูลจากไฟล์ CSV
-    C = pd.read_csv(course_file)
-    R = pd.read_csv(room_file)
-    P = pd.read_csv(professor_file)
-    S = pd.read_csv(student_file)
-    
+
+    df1 = pd.read_csv('course_file')
+    C = {}
+    for idx, row in df1.iterrows():
+        course_id = int(row['courseName'][2:])  # ดึงรหัสวิชา
+        teachers = {}  # สร้าง dictionary เพื่อเก็บข้อมูลอาจารย์
+        for teacher_id, teacher_name in enumerate(row['teachers'].split(','), start=1):
+            teachers[teacher_id] = teacher_name.strip()  # ลบช่องว่างด้านหน้าและด้านหลังของชื่ออาจารย์
+        C[course_id] = {
+            'courseName': row['courseName'],
+            'teachers': teachers,
+            'courseCapacity': row['courseCapacity'],
+            'hoursPerWeek': [int(hour) for hour in row['hourPerWeek'].split(',')],
+            'type': row['type'].split(',')
+        }
+    df2 = pd.read_csv('room_file')
+    R = {}
+    for idx, row in df2.iterrows():
+        room_id = idx + 1  # รหัสห้อง
+        R[room_id] = {
+            'Name': row['Name'],
+            'Capacity': row['Capacity'],
+            'Type': row['Type']
+        }
+    df3 = pd.read_csv(professor_file)
+    P = {}
+    for idx, row in df3.iterrows():
+        professor_id = idx + 1  # รหัสอาจารย์
+        courses = {}  # เก็บรายวิชาที่สอน
+        for i, course in enumerate(row['course'].split(',')):
+            courses[i+1] = course.strip()  # รหัสวิชา
+        P[professor_id] = {
+            'Name': row['Name'],
+            'course': courses,
+            'weight': [list(map(float, weights.split(','))) for weights in row[2:]]
+        }
+    df4 = pd.read_csv(student_file)
+    S = {}
+    for idx, row in df4.iterrows():
+        major = row['Major']
+        year = row['Year']
+        courses = {}  # เก็บรายวิชาที่ลงทะเบียน
+        for i, course in enumerate(row['courseRegister'].split(',')):
+            courses[i+1] = course.strip()  # รหัสวิชา
+        availability = np.array([list(map(int, row[3:].tolist()))])  # การเข้าร่วม
+        S[idx + 1] = {
+            'Major': major,
+            'Year': year,
+            'courseRegister': courses,
+            'Availability': availability
+        }
     #define
     D = { 1: 'Monday',
           2: 'Tuesday',
