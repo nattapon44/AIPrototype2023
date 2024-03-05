@@ -28,7 +28,7 @@
         document.getElementById('uploadForm').addEventListener('submit', function(event){
             event.preventDefault(); 
             
-            fetch("{{ url_for('upload_file_csv') }}", {
+            fetch("/solve_ilp", {
                 method: 'POST',
                 body: new FormData(this)
             })
