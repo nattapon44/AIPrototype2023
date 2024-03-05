@@ -8,6 +8,14 @@
 <body>
     <h1>Solution</h1>
     <p>Here is the solution:</p>
-    <pre>{{ solution }}</pre>
+    <pre id="solution"></pre>
+
+    <script>
+        // ดึงข้อมูล solution จากตัวแปร solution ที่ส่งมาจาก Flask
+        var solutionData = JSON.parse('{{ solution | safe }}');
+
+        // แสดงข้อมูล solution ในรูปแบบ JSON ใน pre element
+        document.getElementById('solution').textContent = JSON.stringify(solutionData, null, 2);
+    </script>
 </body>
 </html>

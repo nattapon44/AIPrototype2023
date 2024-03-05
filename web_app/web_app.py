@@ -312,10 +312,11 @@ def solve_ilp_endpoint():
         # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
+        solution_json = json.dumps(solution)
         # เก็บผลลัพธ์ใน session
         session['solution'] = solution
         return redirect(url_for('show_solution'))
-    return render_template("solution.html")
+    return render_template("solution.html", solution=solution_json)
 
 @app.route('/solution')
 def show_solution():
