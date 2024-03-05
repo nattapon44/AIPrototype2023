@@ -308,6 +308,7 @@ def solve_ilp_endpoint():
         professor_file = request.files['professor_file']
         student_file = request.files['student_file']
         
+        # เรียกใช้งานโมเดล Pyomo
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
         return render_template("solution.html", solution=solution)
