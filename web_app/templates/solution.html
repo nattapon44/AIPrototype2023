@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solution</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/solution.css') }}">
 </head>
 <body>
-    <h1>Solution</h1>
-    <p>Here is the solution:</p>
-    <a href="{{ lp_file }}" download>Download LP File</a>
-    <h2>{{ lp_file }} </h2>
-    <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>
+    <header>
+        <h1>Solution</h1>
+    </header>
+    <main>
+        <section>
+            <p>Here is the solution:</p>
+            <a href="{{ lp_file }}" download class="btn">Download LP File</a>
+            <h2>{{ lp_file }}</h2>
+            <a href="{{ url_for('home') }}" class="back-button btn">Back to Home</a>
+        </section>
+    </main>
+    <footer>
+        <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
+    </footer>
 </body>
 </html>
