@@ -9,14 +9,7 @@
     <h1>Solution</h1>
     <p>Here is the solution:</p>
     <a href="{{ lp_file }}" download>Download LP File</a>
-    <pre id="solution"></pre>
-
-    <script>
-        // ดึงข้อมูล solution จากตัวแปร solution ที่ส่งมาจาก Flask
-        var solutionData = JSON.parse('{{ solution | safe }}');
-
-        // แสดงข้อมูล solution ในรูปแบบ JSON ใน pre element
-        document.getElementById('solution').textContent = JSON.stringify(solutionData, null, 2);
-    </script>
+    <h2>{{ lp_file }} </h2>
+    <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>
 </body>
 </html>

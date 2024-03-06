@@ -321,6 +321,7 @@ def solve_ilp_endpoint():
         return render_template("solution.html", solution=solution, lp_file=lp_file_path )
     return render_template("solution.html")
 
+
 @app.route('/solution', methods=['GET', 'POST'])
 def solution():
     return render_template("solution.html")
