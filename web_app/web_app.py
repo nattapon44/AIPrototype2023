@@ -264,7 +264,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     opt = SolverFactory('glpk')
     opt.solve(model, tee=True)
 
-    lp_file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/'
+    lp_file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/model.lp'
     save_lp_file(model, lp_file_path)
     
     return solution, lp_file_path
