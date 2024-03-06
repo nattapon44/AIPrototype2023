@@ -263,7 +263,14 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # กำหนด Solver
     opt = SolverFactory('glpk')
     opt.solve(model, tee=True)
-    return solution
+
+    lp_file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/model.lp'
+    save_lp_file(model, lp_file_path)
+    
+    return solution, lp_file_path
+
+def save_lp_file(model, file_path):
+    model.write(file_path, io_options={'symbolic_solver_labels': True})
 
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -309,9 +316,9 @@ def solve_ilp_endpoint():
         student_file = request.files['student_file']
         
         # เรียกใช้งานโมเดล Pyomo
-        solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
+        solution, lp_file_path = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        return render_template("solution.html", solution=solution)
+        return render_template("solution.html", solution=solution, lp_file=lp_file_path )
     return render_template("solution.html")
 
 @app.route('/solution', methods=['GET', 'POST'])
