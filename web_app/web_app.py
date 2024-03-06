@@ -272,6 +272,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
 def save_lp_file(model, file_path):
     model.write(file_path, io_options={'symbolic_solver_labels': True})
 
+
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -317,9 +318,20 @@ def solve_ilp_endpoint():
         
         # เรียกใช้งานโมเดล Pyomo
         solution, lp_file_path = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
+
+        current_directory = os.getcwd()  # เส้นทางไปยังไดเรกทอรีปัจจุบัน
+        static_directory = os.path.join(current_directory, 'web_app', 'static')
+        lp_file_path = os.path.join(static_directory, 'model.lp')  # เส้นทางสำหรับบันทึกไฟล์ LP
+
+        save_lp_file(solution, lp_file_path)
         
-        return render_template("solution.html", solution=solution, lp_file=lp_file_path )
-    return render_template("solution.html")
+        # ตรวจสอบว่าไฟล์ถูกสร้างขึ้นแล้ว
+        if os.path.exists(lp_file_path):
+            return render_template("solution.html", solution=solution, lp_file=lp_file_path)
+        else:
+            return "Failed to generate LP file", 500  # ส่งรหัสข้อผิดพลาด 500 ถ้าไม่สามารถสร้างไฟล์ได้
+    return "Method Not Allowed", 405  # ส่งรหัสข้อผิดพลาด 405 ถ้าไม่ใช่เมธอด POST
+        
 
 @app.route('/solution', methods=['GET', 'POST'])
 def solution():
