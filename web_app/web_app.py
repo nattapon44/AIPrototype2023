@@ -462,19 +462,10 @@ def solve_ilp_endpoint():
         student_file = request.files['student_file']
         
         # เรียกใช้งานโมเดล Pyomo
-        solution, lp_file_path = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
+        solution, teaching_tables, professor_tables, student_table  = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        return render_template("solution.html", solution=solution, lp_file=lp_file_path )
+        return render_template("solution.html", solution=solution,teaching_tables=teaching_tables, professor_tables=professor_tables, student_table=student_table)
     return render_template("solution.html")
-
-
-    
-@app.route('/solution')
-def solution():
-    # Assuming teaching_tables, professor_tables, and student_table are generated from your data processing code
-    teaching_tables, professor_tables, student_table = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
-    return render_template('solution.html', teaching_tables=teaching_tables, professor_tables=professor_tables, student_table=student_table)
-
 
 @app.route('/download_file_1')
 def download_file_1():
