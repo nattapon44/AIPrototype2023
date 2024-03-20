@@ -422,6 +422,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         s, c, r, d, t, val_z = z1
         student_table.at[d, t] = (c, r)
 
+    return teaching_tables, professor_tables, student_table
 
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -462,6 +463,7 @@ def solution():
     # Assuming teaching_tables, professor_tables, and student_table are generated from your data processing code
     teaching_tables, professor_tables, student_table = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
     return render_template('solution.html', teaching_tables=teaching_tables, professor_tables=professor_tables, student_table=student_table)
+
 
 @app.route('/download_file_1')
 def download_file_1():
