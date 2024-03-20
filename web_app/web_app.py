@@ -194,9 +194,8 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                     model.v_crdt[c, r, d, t].setub(12)
                 model.max_Vcrd[c, r, d].setub(12)
 
-    #Objective Funciton
     def Objective_rule(model):
-        return sum([(find_ucrdt(c,r,d,t)/hc(c))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
+        return sum([(find_ucrdt(c,r,d,t)/(2*hcobj(c)))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
     model.obj = Objective(rule=Objective_rule, sense=maximize)
     # Constraints
     # Constraint 1
@@ -352,13 +351,91 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     opt = SolverFactory('glpk')
     opt.solve(model, tee=True)
 
-    lp_file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/model.lp'
-    save_lp_file(model, lp_file_path)
-    
-    return solution, lp_file_path
+    list_of_x1 = []
+    for c in C:
+        for r in R:
+            for d in D:
+                for t in T:
+                    val_x = pe.value(model.x_crdt[c, r, d, t])
+                    if val_x != 0:
+                        list_of_x1.append((c, r, d, t, int(val_x)))
+    # พิมพ์ list_of_x1
+    for x1 in list_of_x1:
+        print("x_crdt({}, {}, {}, {}) = {}".format(x1[0], x1[1], x1[2], x1[3], x1[4]))
 
-def save_lp_file(model, file_path):
-    model.write(file_path, io_options={'symbolic_solver_labels': True})
+    list_of_z1 = []
+    for s in S:
+        for c in C:
+            for r in R:
+                for d in D:
+                    for t in T:
+                        val_z = pe.value(model.z_scrdt[s, c, r, d, t])
+                        if val_z != 0:
+                            list_of_z1.append((s, c, r, d, t, int(val_z)))
+    # พิมพ์ list_of_x1
+    for z1 in list_of_z1:
+        print("z_scrdt({}, {}, {}, {}, {}) = {}".format(z1[0], z1[1], z1[2], z1[3], z1[4], z1[5]))
+
+    list_of_y1 = []
+    for p in P:
+        for d in D:
+            for t in T:
+                val_y = pe.value(model.y_pdt[p, d, t])
+                if val_y != 0:
+                    list_of_y1.append((p, d, t, int(val_y)))
+    # พิมพ์ list_of_y1
+    for y1 in list_of_y1:
+        print("y_pdt({}, {}, {}) = {}".format(y1[0], y1[1], y1[2], y1[3]))
+
+    # สร้าง list ของ DataFrame โดยให้แต่ละ DataFrame มี index เป็นค่าใน D และ columns เป็นค่าใน T
+    tables = [pd.DataFrame(index=D, columns=T) for _ in range(6)]
+    # เติมค่า x ที่มีค่า r เริ่มตั้งแต่ 1 ถึง 6 เข้าไปในแต่ละตาราง
+    for r_value in range(1, 7):
+        x_with_r = [x1 for x1 in list_of_x1 if x1[1] == r_value]  # กรองค่า x ที่มีค่า r เท่ากับ r_value
+        for idx, x1 in enumerate(x_with_r):
+            c, r, d, t, val_x = x1
+            if pd.isnull(tables[r_value - 1].at[d, t]):  # ตรวจสอบว่าเซลล์ในตารางว่างหรือไม่
+                tables[r_value - 1].at[d, t] = [c]  # หากว่างให้เพิ่มค่า x เป็น list ใหม่
+            else:
+                tables[r_value - 1].at[d, t].append(c)  # หากไม่ให้เพิ่มค่า x เข้าไปใน list ที่มีอยู่แล้ว
+    # พิมพ์ตารางทั้งหมด
+    for r_value, table in enumerate(tables, start=1):
+        print(f"Table for r = {r_value}")
+        print(table)
+        print("\n")
+        return solution
+
+    # Create DataFrame with D as index and T as columns
+    teaching_table = pd.DataFrame(index=D, columns=T)
+
+    # Fill in the table
+    for row in teaching_table.itertuples():
+        d = row.Index
+        for t in teaching_table.columns:
+            teaching_info = []
+            for c, r, d_, t_, val_x in list_of_x1:
+                if d == d_ and t == t_:
+                    teaching_info.append((c, r))
+            teaching_table.at[d, t] = teaching_info
+
+    # Print the table
+    print("Teaching Schedule:")
+    print(teaching_table)
+
+        # สร้าง DataFrame โดยกำหนด index เป็นค่าใน D และ columns เป็นค่าใน T
+    s1_df = pd.DataFrame(index=D, columns=T)
+
+    # กรองข้อมูลที่มี s เท่ากับ 1 จาก list_of_z1
+    s1_z1 = [z1 for z1 in list_of_z1 if z1[0] == 1]
+
+    # เพิ่มค่า c และ r ลงในตาราง s1_df ตาม d เป็น row และ t เป็น column
+    for z1 in s1_z1:
+        s, c, r, d, t, val_z = z1  # แก้ไขตำแหน่งของ c และ r ให้ถูกต้อง
+        s1_df.at[d, t] = (c, r)
+
+    # แสดง DataFrame ที่สร้าง
+    print("DataFrame for s = 1")
+    print(s1_df)
 
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -394,69 +471,8 @@ def upload_file_excel():
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
 
-@app.route('/solve_ilp', methods=['GET', 'POST'])
-def solve_ilp_endpoint():
-    if request.method == 'POST':
-        # รับไฟล์ CSV จาก request
-        course_file = request.files['course_file']
-        room_file = request.files['room_file']
-        professor_file = request.files['professor_file']
-        student_file = request.files['student_file']
-        
-        # เรียกใช้งานโมเดล Pyomo
-        solution, lp_file_path = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
-        
-        return render_template("solution.html", solution=solution, lp_file=lp_file_path )
-    return render_template("solution.html")
 
 
-@app.route('/solution', methods=['GET', 'POST'])
-def solution():
-    if request.method == 'POST':
-        course_file = request.files['course_file']
-        room_file = request.files['room_file']
-        professor_file = request.files['professor_file']
-        student_file = request.files['student_file']
-        
-        solution, _ = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
-        
-        tables = []
-        for r_value in range(1, 7):
-            x_with_r = [x1 for x1 in solution if x1[1] == r_value]
-            table = pd.DataFrame(index=D, columns=T)
-            for idx, x1 in enumerate(x_with_r):
-                c, r, d, t, val_x = x1
-                if pd.isnull(table.at[d, t]):
-                    table.at[d, t] = [c]
-                else:
-                    table.at[d, t].append(c)
-            tables.append(table)
-
-        return render_template("solution.html", tables=tables)
-    
-    return render_template("solution.html")
-
-
-
-@app.route('/download_file_1')
-def download_file_1():
-    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/course_template.xlsx'
-    return send_file(file_path, as_attachment=True)
-
-@app.route('/download_file_2')
-def download_file_2():
-    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/professor_template.xlsx'
-    return send_file(file_path, as_attachment=True)
-
-@app.route('/download_file_3')
-def download_file_3():
-    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/room_template.xlsx'
-    return send_file(file_path, as_attachment=True)
-
-@app.route('/download_file_4')
-def download_file_4():
-    file_path = '/home/nattapon/codes/AIPrototype2023/web_app/static/templetes excel/student_template.xlsx'
-    return send_file(file_path, as_attachment=True)
 
 
 if __name__ == "__main__":
