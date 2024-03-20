@@ -11,12 +11,37 @@
         <h1>Solution</h1>
     </header>
     <main>
+        {% for table in tables %}
         <section>
-            <p>Here is the solution:</p>
-            <a href="{{ lp_file }}" download class="btn">Download LP File</a>
-            <h2>{{ lp_file }}</h2>
-            <a href="{{ url_for('home') }}" class="back-button btn">Back to Home</a>
+            <p>Table for Room {{ loop.index }}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Course</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in table.iterrows() %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>
+                            {% if not row.isnull().all() %}
+                                {% for time, courses in row.items() %}
+                                    {% if not pd.isnull(courses) %}
+                                        {% for course in courses %}
+                                            {{ course }}<br>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </section>
+        {% endfor %}
     </main>
     <footer>
         <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>

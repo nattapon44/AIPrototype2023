@@ -91,13 +91,16 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         }
 
     def find_ucrdt(c, r, d, t):
+
         type_r = R[r]['Type']
         #print(type_r)
         type_c = C[c]['type']
         #print(type_c)
+
         if type_r == 'lecture' and 'lab' in type_c:
             #print("checking room")
             return 0
+
         else:
             Pp = list(C[c]['teachers'].keys())
             numteacher = len(Pp)
@@ -112,25 +115,55 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                     min_weight.append(P[p_index]['weight'][d-1][t-1])
                 return min(min_weight)
 
-    def hc(c):
+    def hcobj(c):
         hours_per_week = C[c]["hoursPerWeek"]
-        h_c = sum(hours_per_week)*2
+        h_c = sum(hours_per_week)
         return h_c
+
+    def hc(c):
+        hours_per_week = C[c]["hoursPerWeek"][0]
+        return hours_per_week
+
     def capr(r):
         return R[r]['Capacity']
+
     def capc(c):
         return C[c]['courseCapacity']
+
     def kp(p):
         return 6
+
     def ks(s):
         return 6
+
     def kc(c):
         return len(C[c]['hoursPerWeek'])
+
     def a_sdt(s, d, t):
         return S[s]['Availability'][d-1][t-1]
-    def tprime_tc(c, t):
-        hc = C[c]["hoursPerWeek"]
 
+    start_index = list(T.keys())[0]
+    end_index = list(T.keys())[-1]
+    start_afternoon_index = int(len(T.keys())/2)
+
+    def t_prime(c, t):
+        hc_value = 2*C[c]["hoursPerWeek"][0]  # ดึงค่า hc สำหรับวิชา c
+        # print(hc_value)
+        # เวลาไม่เรียนที่อยู่คนละช่วงของวัน
+        if t < 9:
+            t_prime_set1 = set(range(start_afternoon_index, end_index+1))
+        else:
+            t_prime_set1 = set(range(1, start_afternoon_index))
+
+        # เวลาไม่เรียนที่ไม่ติดกัน
+        for i in range(1,hc_value):
+            t_prime_set2 = set(T.keys()).difference(set(t-i for i in range(0,hc_value))).difference(set(t+i for i in range(0,hc_value)))
+
+        t_prime_set = t_prime_set1.union(t_prime_set2)
+
+        return t_prime_set, len(t_prime_set)
+
+   
     # สร้างโมเดล
     model = ConcreteModel()
     # Sets
@@ -144,23 +177,33 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     model.Cs = Set(initialize=S.keys())
     model.Rc = Set(initialize=C.keys())
     model.Tp = Set(initialize=P.keys())
-    model.Tprime_tc = Set(initialize=T.keys())
+    model.T_new = set(range(len(T) + 1))
     #Variables
     model.x_crdt = Var(model.C, model.R, model.D, model.T, within=Binary)
     model.z_scrdt = Var(model.S, model.C, model.R, model.D, model.T, within=Binary)
     model.w_c = Var(model.C, within=Binary)
     model.w_cd = Var(model.C, model.D, within=Binary)
     model.y_pdt = Var(model.P, model.D, model.T, within=Binary)
+    model.v_crdt = Var(model.C, model.R, model.D, model.T_new, within=NonNegativeIntegers)
+    model.max_Vcrd = Var(model.C, model.R, model.D, within=NonNegativeIntegers)
+    
+    for c in model.C:
+        for r in model.R:
+            for d in model.D:
+                for t in model.T:
+                    model.v_crdt[c, r, d, t].setub(12)
+                model.max_Vcrd[c, r, d].setub(12)
+
     #Objective Funciton
     def Objective_rule(model):
         return sum([(find_ucrdt(c,r,d,t)/hc(c))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
     model.obj = Objective(rule=Objective_rule, sense=maximize)
-    #Constraints
-     # Constraint 1
+    # Constraints
+    # Constraint 1
     model.const1 = ConstraintList()
-    for t in T:
+    for r in R:
         for d in D:
-            for r in R:
+            for t in T:
                 model.const1.add(sum(model.x_crdt[c, r, d, t] for c in model.C) <= 1)
 
     # Constraint 2
@@ -172,8 +215,8 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
 
     # Constraint 3
     model.const3 = ConstraintList()
-    for r in R:
-        for c in C:
+    for c in C:
+        for r in R:
             for d in D:
                 for t in T:
                     model.const3.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capr(r))
@@ -185,7 +228,16 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             for d in D:
                 for t in T:
                     model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
-    
+
+    # Constraint 5 ??
+    # model.const5 = ConstraintList()
+    # for c in C:
+    #    for t in T:
+    #        t_prime_list, t_prime_len = t_prime(c, t)
+    #        for d in D:
+    #            for r in R:
+    #                model.const5.add(sum(model.x_crdt[c, r, d, tt] for tt in t_prime_list) <= t_prime_len * (1 - model.x_crdt[c, r, d, t]))
+
     # Constraint 6
     model.const6 = ConstraintList()
     for c in C:
@@ -194,13 +246,28 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                 for t in T:
                     model.const6.add(model.x_crdt[c, r, d, 8]+ model.x_crdt[c, r, d, 9] <= 1)
 
-    # Constraint 7
-    model.const7 = ConstraintList()
+    # Constraint 7.1
+    model.const7_1 = ConstraintList()
     for c in C:
-        model.const7.add(model.w_cd[c, 1] + model.w_cd[c, 2] <= 1)
-        model.const7.add(model.w_cd[c, 2] + model.w_cd[c, 3] <= 1)
-        model.const7.add(model.w_cd[c, 3] + model.w_cd[c, 4] <= 1)
-        model.const7.add(model.w_cd[c, 4] + model.w_cd[c, 5] <= 1)
+        for d in D:
+            model.const7_1.add(model.w_cd[c, d] <= (sum(model.x_crdt[c, r, d, t] for r in model.R for t in model.T)))
+
+    # Constraint 7.2
+    model.const7_2 = ConstraintList()
+    for c in C:
+        for d in D:
+            model.const7_2.add((sum(model.x_crdt[c, r, d, t] for r in model.R for t in model.T)) <= (2*hc(c))*model.w_cd[c, d])
+
+    # Constraint 8
+    model.const8_1 = ConstraintList()
+    model.const8_2 = ConstraintList()
+    model.const8_3 = ConstraintList()
+    model.const8_4 = ConstraintList()
+    for c in C:
+        model.const8_1.add(model.w_cd[c, 1] + model.w_cd[c, 2] <= 1)
+        model.const8_2.add(model.w_cd[c, 2] + model.w_cd[c, 3] <= 1)
+        model.const8_3.add(model.w_cd[c, 3] + model.w_cd[c, 4] <= 1)
+        model.const8_4.add(model.w_cd[c, 4] + model.w_cd[c, 5] <= 1)
 
     # Constraint 9
     model.const9 = ConstraintList()
@@ -214,21 +281,21 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # Constraint 10
     model.const10 = ConstraintList()
     for p in P:
-        for c in C:
-            for r in R:
-                for d in D:
-                    for t in T:
-                        model.const10.add(model.x_crdt[c, r, d, t] <= model.y_pdt[p, d, t])
+        for d in D:
+            for t in T:
+                model.const10.add(sum(model.x_crdt[c, r, d, t] for c in model.C for r in model.R) - model.y_pdt[p, d, t] == 0)
 
     # Constraint 11
     model.const11 = ConstraintList()
     for p in P:
-        model.const11.add(sum(model.y_pdt[p, d, t] for d in model.D for t in model.T) <= kp(p)  )
+        for d in D:
+            model.const11.add(sum(model.y_pdt[p, d, t] for t in model.T) <= 2*kp(p)  )
 
     # Constraint 12
     model.const12 = ConstraintList()
     for s in S:
-        model.const12.add(sum(model.z_scrdt[s, c, r, d, t] for c in model.C for r in model.R) <= ks(s)  )
+        for d in D:
+            model.const12.add(sum(model.z_scrdt[s, c, r, d, t] for c in model.C for r in model.R) <= 2*ks(s)  )
 
     # Constraint 13
     model.const13 = ConstraintList()
@@ -242,17 +309,38 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             for r in R:
                 model.const14.add(model.z_scrdt[s, c, r, d, t] <= a_sdt(s,d,t))
 
-    twoucrdt = 2*find_ucrdt(c,r,d,t)
-    print(twoucrdt)
-
     # Constraint 15
     model.const15 = ConstraintList()
     for c in C:
         for r in R:
             for d in D:
                 for t in T:
-                    model.const15.add(model.x_crdt[c, r, d, t] <= twoucrdt)
-            
+                    model.const15.add(model.x_crdt[c, r, d, t] <= 2*find_ucrdt(c,r,d,t))
+
+    # Constraints 16
+    model.const16_1 = ConstraintList()
+    model.const16_2 = ConstraintList()
+    model.const16_3 = ConstraintList()
+    model.const16_4 = ConstraintList()
+    model.const16_5 = ConstraintList()
+    model.const16_6 = ConstraintList()
+    for c in C:
+        for r in R:
+            for d in D:
+                model.const16_1.add(model.v_crdt[c, r, d, 0] == 0)
+                for t in T:
+                    model.const16_2.add(model.v_crdt[c, r, d, t] >= -t * model.x_crdt[c, r, d, t])
+                    model.const16_3.add(model.v_crdt[c, r, d, t] <= t * model.x_crdt[c, r, d, t])
+                    model.const16_4.add(model.v_crdt[c, r, d, t] >= 1 + model.v_crdt[c, r, d, t-1] - t * (1 - model.x_crdt[c, r, d, t]))
+                    model.const16_5.add(model.v_crdt[c, r, d, t] <= 1 + model.v_crdt[c, r, d, t-1] + t * (1 - model.x_crdt[c, r, d, t]))
+                    model.const16_6.add(model.max_Vcrd[c, r, d] >= model.v_crdt[c, r, d, t])
+
+    # Constraints 17
+    model.const17 = ConstraintList()
+    for c in C:
+        for r in R:
+            for d in D:
+                model.const17.add(model.max_Vcrd[c, r, d] == sum(model.x_crdt[c, r, d, t] for t in model.T))
     # สร้างตัวแปรสำหรับเก็บผลลัพธ์และคืนค่า
     # solution = ...
     solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
@@ -324,7 +412,31 @@ def solve_ilp_endpoint():
 
 @app.route('/solution', methods=['GET', 'POST'])
 def solution():
+    if request.method == 'POST':
+        course_file = request.files['course_file']
+        room_file = request.files['room_file']
+        professor_file = request.files['professor_file']
+        student_file = request.files['student_file']
+        
+        solution, _ = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
+        
+        tables = []
+        for r_value in range(1, 7):
+            x_with_r = [x1 for x1 in solution if x1[1] == r_value]
+            table = pd.DataFrame(index=D, columns=T)
+            for idx, x1 in enumerate(x_with_r):
+                c, r, d, t, val_x = x1
+                if pd.isnull(table.at[d, t]):
+                    table.at[d, t] = [c]
+                else:
+                    table.at[d, t].append(c)
+            tables.append(table)
+
+        return render_template("solution.html", tables=tables)
+    
     return render_template("solution.html")
+
+
 
 @app.route('/download_file_1')
 def download_file_1():
