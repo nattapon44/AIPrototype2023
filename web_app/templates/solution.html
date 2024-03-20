@@ -11,9 +11,37 @@
         <h1>Solution</h1>
     </header>
     <main>
-        {% for table in tables %}
         <section>
-            <p>Table for Room {{ loop.index }}</p>
+            <h2>Teaching Schedule</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Room</th>
+                        <th>Course</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for table in teaching_tables %}
+                    {% for index, row in table.iterrows() %}
+                    {% for time, courses in row.items() %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ time }}</td>
+                        <td>
+                            {% for course, room in courses %}
+                                {{ course }} ({{ room }})<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Teaching Schedule for Professors</h2>
             <table>
                 <thead>
                     <tr>
@@ -22,26 +50,44 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for table in professor_tables %}
                     {% for index, row in table.iterrows() %}
                     <tr>
                         <td>{{ index }}</td>
                         <td>
-                            {% if not row.isnull().all() %}
-                                {% for time, courses in row.items() %}
-                                    {% if not pd.isnull(courses) %}
-                                        {% for course in courses %}
-                                            {{ course }}<br>
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
+                            {% for course in row %}
+                                {{ course }}<br>
+                            {% endfor %}
                         </td>
                     </tr>
+                    {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>
         </section>
-        {% endfor %}
+        <section>
+            <h2>Student Schedule (s = 1)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Course</th>
+                        <th>Room</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in student_table.iterrows() %}
+                    {% for time, course_room in row.items() %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ course_room[0] }}</td>
+                        <td>{{ course_room[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </main>
     <footer>
         <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
