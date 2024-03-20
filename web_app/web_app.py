@@ -451,6 +451,12 @@ def upload_file_excel():
                 file.save(file_path)
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
+
+@app.route('/solve_ilp', methods=['POST'])
+def solve_ilp():
+    # Handle the ILP solving logic here
+    return "ILP solved successfully"
+
     
 @app.route('/solution')
 def solution():
