@@ -4,28 +4,63 @@
     <meta charset="UTF-8">
     <title>Upload page</title>
     <link rel="stylesheet" href="{{ url_for ('static', filename='css/upload.css') }}">
+    <style>
+        /* CSS สำหรับแสดงหน้าหมุน load */
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-wrapper {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Upload Files page</h1>
     </header>
-        <section class="upload-section">
-            <form id="uploadForm" action="/solve_ilp" method="post" enctype="multipart/form-data">
-                <h2>Input Course (.xlsx file)</h2>
-                <input type="file" name="course_file" accept=".xlsx">
-                <h2>Input Room (.xlsx file)</h2>
-                <input type="file" name="room_file" accept=".xlsx">                  
-                <h2>Input Professor (.xlsx file)</h2>
-                <input type="file" name="professor_file" accept=".xlsx">              
-                <h2>Input Student (.xlsx file)</h2>
-                <input type="file" name="student_file" accept=".xlsx">
-                <button type="submit">Upload</button>
-            </form>            
-            <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>
-        </section>
+    <section class="upload-section">
+        <form id="uploadForm" action="/solve_ilp" method="post" enctype="multipart/form-data">
+            <h2>Input Course (.xlsx file)</h2>
+            <input type="file" name="course_file" accept=".xlsx">
+            <h2>Input Room (.xlsx file)</h2>
+            <input type="file" name="room_file" accept=".xlsx">                  
+            <h2>Input Professor (.xlsx file)</h2>
+            <input type="file" name="professor_file" accept=".xlsx">              
+            <h2>Input Student (.xlsx file)</h2>
+            <input type="file" name="student_file" accept=".xlsx">
+            <!-- เพิ่ม loader เป็นหน้าหมุน load -->
+            <div class="loader-wrapper" id="loaderWrapper">
+                <div class="loader"></div>
+            </div>
+            <button type="submit" id="uploadButton">Upload</button>
+        </form>            
+        <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>
+    </section>
+
+    <footer>
+        <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
+    </footer>
 
     <script>    
         document.getElementById('uploadForm').addEventListener('submit', function(event){
+            // เปิดแสดง loader เมื่อกดปุ่ม upload
+            document.getElementById('loaderWrapper').style.display = 'block';
+            // ปิดปุ่ม upload เพื่อป้องกันการกดซ้ำ
+            document.getElementById('uploadButton').disabled = true;
+
             event.preventDefault(); 
             
             fetch("/solve_ilp", {
@@ -44,13 +79,12 @@
             })
             .catch(error => {
                 console.error('Error:', error);
+                // ปิด loader เมื่อเกิด error
+                document.getElementById('loaderWrapper').style.display = 'none';
+                // เปิดปุ่ม upload เพื่อให้สามารถกด upload ใหม่ได้
+                document.getElementById('uploadButton').disabled = false;
             });
         });
     </script>
-    
-
-    <footer>
-        <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
-    </footer>
 </body>
 </html>
