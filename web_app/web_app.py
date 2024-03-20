@@ -452,10 +452,21 @@ def upload_file_excel():
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
 
-@app.route('/solve_ilp', methods=['POST'])
-def solve_ilp():
-    # Handle the ILP solving logic here
-    return "ILP solved successfully"
+@app.route('/solve_ilp', methods=['GET', 'POST'])
+def solve_ilp_endpoint():
+    if request.method == 'POST':
+        # รับไฟล์ CSV จาก request
+        course_file = request.files['course_file']
+        room_file = request.files['room_file']
+        professor_file = request.files['professor_file']
+        student_file = request.files['student_file']
+        
+        # เรียกใช้งานโมเดล Pyomo
+        solution, lp_file_path = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
+        
+        return render_template("solution.html", solution=solution, lp_file=lp_file_path )
+    return render_template("solution.html")
+
 
     
 @app.route('/solution')
