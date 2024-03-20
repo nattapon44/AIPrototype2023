@@ -340,8 +340,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # สร้างตัวแปรสำหรับเก็บผลลัพธ์และคืนค่า
     # solution = ...
     solver = pe.SolverFactory('glpk', executable='/usr/bin/glpsol')
-    solution = solver.solve(model)
-
+    
     from pyomo.opt import SolverFactory
 
     # กำหนด Solver
