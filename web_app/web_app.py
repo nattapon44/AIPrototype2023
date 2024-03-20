@@ -387,55 +387,41 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     for y1 in list_of_y1:
         print("y_pdt({}, {}, {}) = {}".format(y1[0], y1[1], y1[2], y1[3]))
 
-    # สร้าง list ของ DataFrame โดยให้แต่ละ DataFrame มี index เป็นค่าใน D และ columns เป็นค่าใน T
-    tables = [pd.DataFrame(index=D, columns=T) for _ in range(6)]
-    # เติมค่า x ที่มีค่า r เริ่มตั้งแต่ 1 ถึง 6 เข้าไปในแต่ละตาราง
+    # Create teaching tables
+    teaching_tables = [pd.DataFrame(index=D, columns=T) for _ in range(6)]
+
+    # Fill in the teaching tables
     for r_value in range(1, 7):
-        x_with_r = [x1 for x1 in list_of_x1 if x1[1] == r_value]  # กรองค่า x ที่มีค่า r เท่ากับ r_value
+        x_with_r = [x1 for x1 in list_of_x1 if x1[1] == r_value]
         for idx, x1 in enumerate(x_with_r):
             c, r, d, t, val_x = x1
-            if pd.isnull(tables[r_value - 1].at[d, t]):  # ตรวจสอบว่าเซลล์ในตารางว่างหรือไม่
-                tables[r_value - 1].at[d, t] = [c]  # หากว่างให้เพิ่มค่า x เป็น list ใหม่
+            if pd.isnull(teaching_tables[r_value - 1].at[d, t]):
+                teaching_tables[r_value - 1].at[d, t] = [(c, r)]
             else:
-                tables[r_value - 1].at[d, t].append(c)  # หากไม่ให้เพิ่มค่า x เข้าไปใน list ที่มีอยู่แล้ว
-    # พิมพ์ตารางทั้งหมด
-    for r_value, table in enumerate(tables, start=1):
-        print(f"Table for r = {r_value}")
-        print(table)
-        print("\n")
-        return solution
+                teaching_tables[r_value - 1].at[d, t].append((c, r))
 
-    # Create DataFrame with D as index and T as columns
-    teaching_table = pd.DataFrame(index=D, columns=T)
+    # Create professor tables
+    professor_tables = [pd.DataFrame(index=D, columns=T) for _ in range(6)]
 
-    # Fill in the table
-    for row in teaching_table.itertuples():
-        d = row.Index
-        for t in teaching_table.columns:
-            teaching_info = []
-            for c, r, d_, t_, val_x in list_of_x1:
-                if d == d_ and t == t_:
-                    teaching_info.append((c, r))
-            teaching_table.at[d, t] = teaching_info
+    # Fill in the professor tables
+    for idx, table in enumerate(professor_tables):
+        for index, row in table.iterrows():
+            for t in table.columns:
+                course_list = []
+                for c, r, d, t_, val_x in list_of_x1:
+                    if idx + 1 == r and t == t_:
+                        course_list.append(c)
+                table.at[index, t] = course_list
 
-    # Print the table
-    print("Teaching Schedule:")
-    print(teaching_table)
+    # Create student table for s = 1
+    student_table = pd.DataFrame(index=D, columns=T)
 
-        # สร้าง DataFrame โดยกำหนด index เป็นค่าใน D และ columns เป็นค่าใน T
-    s1_df = pd.DataFrame(index=D, columns=T)
-
-    # กรองข้อมูลที่มี s เท่ากับ 1 จาก list_of_z1
+    # Fill in the student table
     s1_z1 = [z1 for z1 in list_of_z1 if z1[0] == 1]
-
-    # เพิ่มค่า c และ r ลงในตาราง s1_df ตาม d เป็น row และ t เป็น column
     for z1 in s1_z1:
-        s, c, r, d, t, val_z = z1  # แก้ไขตำแหน่งของ c และ r ให้ถูกต้อง
-        s1_df.at[d, t] = (c, r)
+        s, c, r, d, t, val_z = z1
+        student_table.at[d, t] = (c, r)
 
-    # แสดง DataFrame ที่สร้าง
-    print("DataFrame for s = 1")
-    print(s1_df)
 
 UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -470,9 +456,11 @@ def upload_file_excel():
                 file.save(file_path)
         return render_template("upload.html", name='upload completed')
     return render_template("upload.html")
-
-
-
+    
+@app.route('/solution')
+def solution():
+    # Assuming teaching_tables, professor_tables, and student_table are generated from your data processing code
+    return render_template('solution.html', teaching_tables=teaching_tables, professor_tables=professor_tables, student_table=student_table)
 
 
 if __name__ == "__main__":
