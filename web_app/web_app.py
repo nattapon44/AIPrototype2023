@@ -198,31 +198,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                 for t in T:
                     model.const4.add(sum(model.z_scrdt[s, c, r, d, t] for s in model.S) <= capc(c))
 
-    # Constraints 5
-    model.const5_1 = ConstraintList()
-    model.const5_2 = ConstraintList()
-    model.const5_3 = ConstraintList()
-    model.const5_4 = ConstraintList()
-    model.const5_5 = ConstraintList()
-    model.const5_6 = ConstraintList()
-    for c in C:
-        for r in R:
-            for d in D:
-                model.const5_1.add(model.v_crdt[c, r, d, 0] == 0)
-                for t in T:
-                    model.const5_2.add(model.v_crdt[c, r, d, t] >= -t * model.x_crdt[c, r, d, t])
-                    model.const5_3.add(model.v_crdt[c, r, d, t] <= t * model.x_crdt[c, r, d, t])
-                    model.const5_4.add(model.v_crdt[c, r, d, t] >= 1 + model.v_crdt[c, r, d, t-1] - t * (1 - model.x_crdt[c, r, d, t]))
-                    model.const5_5.add(model.v_crdt[c, r, d, t] <= 1 + model.v_crdt[c, r, d, t-1] + t * (1 - model.x_crdt[c, r, d, t]))
-                    model.const5_6.add(model.max_Vcrd[c, r, d] >= model.v_crdt[c, r, d, t])
-
-    # Constraints 6
-    model.const6_1 = ConstraintList()
-    for c in C:
-        for r in R:
-            for d in D:
-                model.const6_1.add(model.max_Vcrd[c, r, d] == (sum(model.x_crdt[c, r, d, t] for t in model.T)))
-
     # Constraint 7
     model.const7 = ConstraintList()
     for c in C:
