@@ -13,12 +13,13 @@ UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
+   # อ่านข้อมูล course
     course = pd.read_excel(course_file, engine='openpyxl')
     C = {}
     for idx, row in course.iterrows():
         teachers_dict = {}
         for i, teacher in enumerate(row['teachers'].split(','), start=1):
-            teachers_dict[i] = teacher.strip()  # Strip whitespace from teacher names
+            teachers_dict[i] = teacher.strip()  # ตัดช่องว่างหน้าและหลังชื่ออาจารย์
         hours_per_week = [int(x) for x in row['hourPerWeek'].split(',')]
         course_type = row['type'].split(',')
         C[idx+1] = {
@@ -29,6 +30,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             "type": course_type
         }
 
+    # อ่านข้อมูล room
     room = pd.read_excel(room_file, engine='openpyxl')
     R = {}
     for idx, row in room.iterrows():
@@ -38,6 +40,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             "Type": row['Type']
         }
 
+    # อ่านข้อมูล professor
     professor = pd.read_excel(professor_file, engine='openpyxl')
     professor.fillna('', inplace=True)
     P = {}
@@ -50,6 +53,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     for prof_id in P:
         P[prof_id]['weight'] = [[float(w) if pd.notna(w) else w for w in sublist] for sublist in P[prof_id]['weight']]
 
+    # อ่านข้อมูล student
     student = pd.read_excel(student_file, engine='openpyxl')
     student.fillna('', inplace=True)
     S = {}
@@ -59,7 +63,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
             S[stud_id] = {'Major': row['Major'], 'Year': row['Year'], 'courseRegister': {}, 'Availability': []}
         S[stud_id]['courseRegister'][index+1] = row['courseRegister']
         S[stud_id]['Availability'].append(list(row[3:]))
-    
+
     #define
     D = { 1: 'Monday',
           2: 'Tuesday',
