@@ -10,85 +10,17 @@
     <header>
         <h1>Solution</h1>
     </header>
-    <main>
-        <section>
-            <h2>Teaching Schedule</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Room</th>
-                        <th>Course</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for table in teaching_tables %}
-                    {% for index, row in table.iterrows() %}
-                    {% for time, courses in row.items() %}
-                    <tr>
-                        <td>{{ index }}</td>
-                        <td>{{ time }}</td>
-                        <td>
-                            {% for course, room in courses %}
-                                {{ course }} ({{ room }})<br>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    {% endfor %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-        <section>
-            <h2>Teaching Schedule for Professors</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Course</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for table in professor_tables %}
-                    {% for index, row in table.iterrows() %}
-                    <tr>
-                        <td>{{ index }}</td>
-                        <td>
-                            {% for course in row %}
-                                {{ course }}<br>
-                            {% endfor %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-        <section>
-            <h2>Student Schedule (s = 1)</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Course</th>
-                        <th>Room</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for index, row in student_table.iterrows() %}
-                    {% for time, course_room in row.items() %}
-                    <tr>
-                        <td>{{ index }}</td>
-                        <td>{{ course_room[0] }}</td>
-                        <td>{{ course_room[1] }}</td>
-                    </tr>
-                    {% endfor %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-    </main>
+    <section class="downloadfile">
+        {% if solution %}
+        <h2>Download Solution Files</h2>
+        <ul>
+            <li><a href="{{ url_for('download_solution', filename='room_files.xlsx') }}">Room files</a></li>
+            <li><a href="{{ url_for('download_solution', filename='Professor files.xlsx') }}">Professor files</a></li>
+            <li><a href="{{ url_for('download_solution', filename='Student files.xlsx') }}">Student files</a></li>
+            <!-- เพิ่มไฟล์ที่ต้องการให้ดาวน์โหลดตามจำนวนที่ต้องการ -->
+        </ul>
+        {% endif %}
+    </section>
     <footer>
         <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
     </footer>

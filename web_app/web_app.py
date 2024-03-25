@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 from pyomo import environ as pe
 from pyomo.environ import *
 import numpy as np
-import files
+import xlsxwriter
 
 app = Flask(__name__)
 
@@ -566,7 +566,7 @@ def upload_file_excel():
 @app.route('/solve_ilp', methods=['GET', 'POST'])
 def solve_ilp_endpoint():
     if request.method == 'POST':
-        # รับไฟล์ CSV จาก request
+        # รับไฟล์ excel จาก request
         course_file = request.files['course_file']
         room_file = request.files['room_file']
         professor_file = request.files['professor_file']
@@ -577,6 +577,14 @@ def solve_ilp_endpoint():
         
         return render_template("solution.html", solution=solution,)
     return render_template("solution.html")
+
+@app.route('/download_solution/<filename>', methods=['GET'])
+def download_solution(filename):
+    # สร้าง path ไปยังไฟล์ solution ที่ต้องการให้ดาวน์โหลด
+    solution_path = "/home/nattapon/codes/AIPrototype2023/web_app/static/" + filename
+    # ส่งไฟล์กลับไปยังผู้ใช้
+    return send_file(solution_path, as_attachment=True)
+
 
 @app.route('/download_file_1')
 def download_file_1():
