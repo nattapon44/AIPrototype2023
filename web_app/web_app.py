@@ -468,10 +468,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # บันทึก DataFrame เป็นไฟล์ Excel
     r6.to_excel("r6.xlsx")
 
-    room_files_name = ["r1.xlsx", "r2.xlsx", "r3.xlsx", "r4.xlsx", "r5.xlsx", "r6.xlsx"]
-    for room_files in room_files_name:
-        files.download(room_files)
-
     # สร้าง DataFrame โดยใช้ชื่อวันเป็น index และเวลาเป็น columns
     p1 = pd.DataFrame(index=days, columns=times)
     # เพิ่มข้อมูลรายวิชาและห้องเรียนลงในตาราง
@@ -508,10 +504,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # บันทึก DataFrame เป็นไฟล์ Excel
     p3.to_excel("p3.xlsx")
 
-    professors_files_name = ["p1.xlsx", "p2.xlsx", "p3.xlsx"]
-    for professors_files in professors_files_name:
-        files.download(professors_files)
-
     # สร้าง DataFrame โดยใช้ชื่อวันเป็น index และเวลาเป็น columns
     s1 = pd.DataFrame(index=days, columns=times)
     # เติมชื่อรายวิชาและห้องเรียนลงในตาราง
@@ -524,11 +516,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                 s1.at[days[d-1], times[t-1]] = course_name + '\n' + '(' + room_name + ')'
    # บันทึก DataFrame เป็นไฟล์ Excel
     s1.to_excel("p1.xlsx")
-
-    students_files_name = ["p1.xlsx", "p2.xlsx", "p3.xlsx"]
-    for students_files in students_files_name:
-        files.download(students_files)
-
+    
     return solution
 
 
