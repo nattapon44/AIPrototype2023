@@ -1,7 +1,7 @@
-/* home.css */
+/* solution.css */
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* เปลี่ยนแบบอักษร */
     margin: 0;
     padding: 0;
     background-color: #f8f9fa;
@@ -17,6 +17,7 @@ header {
 header h1 {
     margin: 0;
     font-size: 36px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* เพิ่มเอฟเฟกท์ text-shadow */
 }
 
 main {
