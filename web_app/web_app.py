@@ -218,8 +218,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
 
     # Constraints 6
     model.const6_1 = ConstraintList()
-    model.const6_2 = ConstraintList()
-    model.const6_3 = ConstraintList()
     for c in C:
         for r in R:
             for d in D:
@@ -310,7 +308,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
 
 
     list_of_x1 = []
-
     for c in C:
         for r in R:
             for d in D:
