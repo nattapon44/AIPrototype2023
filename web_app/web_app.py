@@ -51,7 +51,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         P[prof_id]['weight'] = [[float(w) if pd.notna(w) else w for w in sublist] for sublist in P[prof_id]['weight']]
 
     student = pd.read_excel(student_file, engine='openpyxl')
-    professor.fillna('', inplace=True)
+    student.fillna('', inplace=True)
     S = {}
     for index, row in student.iterrows():
         if pd.notna(row['Major']):
