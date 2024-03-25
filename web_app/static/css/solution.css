@@ -46,6 +46,9 @@ section p {
     border-radius: 5px;
     margin-right: 10px;
     transition: background-color 0.3s ease;
+    border: none; /* เอาเส้นขอบออก */
+    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เป็นเคอร์เซอร์ชี้ */
+    outline: none; /* เอาเส้นขอบ focus ออก */
 }
 
 .btn:hover {
@@ -57,6 +60,7 @@ section p {
     height: 25px; 
     margin-right: 10px; 
 }
+
 
 .back-button {
     display: inline-block;
