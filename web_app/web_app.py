@@ -157,9 +157,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     model.w_c = Var(model.C, within=Binary)
     model.w_cd = Var(model.C, model.D, within=Binary)
     model.y_pdt = Var(model.P, model.D, model.T, within=Binary)
-    model.v_crdt = Var(model.C, model.R, model.D, model.T_new, within=NonNegativeIntegers, bounds=(0,12))
-    model.max_Vcrd = Var(model.C, model.R, model.D, within=NonNegativeIntegers, bounds=(0,12))
-    model.b_crdt = Var(model.C, model.R, model.D, model.T, within=Binary)
 
     def Objective_rule(model):
         return sum([(find_ucrdt(c,r,d,t)/(2*hcobj(c)))*model.x_crdt[c,r,d,t] for c in model.C for r in model.R for d in model.D for t in model.T ])
@@ -328,17 +325,6 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     # พิมพ์ list_of_y1
     for y1 in list_of_y1:
         print("y_pdt({}, {}, {}) = {}".format(y1[0], y1[1], y1[2], y1[3]))
-
-    list_of_v1 = []
-    for c in C:
-        for r in R:
-            for d in D:
-                for t in T:
-                    val_v = pe.value(model.v_crdt[c, r, d, t])
-                    list_of_v1.append((c, r, d, t, int(val_v)))
-    # พิมพ์ list_of_x1
-    for v1 in list_of_v1:
-        print("v_crdt({}, {}, {}, {}) = {}".format(v1[0], v1[1], v1[2], v1[3], v1[4]))
 
     
     # สร้างชื่อวันและเวลา
