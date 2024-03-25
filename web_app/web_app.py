@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from pyomo import environ as pe
 from pyomo.environ import *
 import numpy as np
+from zipfile import ZipFile
 
 app = Flask(__name__)
 
@@ -508,6 +509,30 @@ def download_solution(filename):
     solution_path = "/home/nattapon/codes/AIPrototype2023/web_app/static/solution/" + filename
     # ส่งไฟล์กลับไปยังผู้ใช้
     return send_file(solution_path, as_attachment=True)
+
+@app.route('/download_all_files')
+def download_all_files():
+    # รายชื่อไฟล์ทั้งหกไฟล์ที่ต้องการให้บีบอัดใน ZIP
+    files_to_zip = ['r1.xlsx', 'r2.xlsx', 'r3.xlsx', 'r4.xlsx', 'r5.xlsx', 'r6.xlsx']
+    # ชื่อไฟล์ ZIP ที่จะสร้าง
+    zip_filename = 'all_files.zip'
+
+    # สร้างไฟล์ ZIP และเพิ่มไฟล์ต่างๆเข้าไปใน ZIP
+    with ZipFile(zip_filename, 'w') as zipf:
+        for file in files_to_zip:
+            zipf.write(file)
+
+    # ส่งไฟล์ ZIP ให้ผู้ใช้
+    return send_file(zip_filename, as_attachment=True)
+
+# ลบไฟล์ ZIP หลังจากทำการดาวน์โหลดเสร็จสิ้นเพื่อป้องกันการเก็บข้อมูลที่ไม่จำเป็น
+@app.after_request
+def remove_file(response):
+    try:
+        os.remove('all_files.zip')
+    except Exception as e:
+        print("Error:", e)
+    return response
 
 
 @app.route('/download_file_1')
