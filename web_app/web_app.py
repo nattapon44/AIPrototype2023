@@ -5,7 +5,6 @@ from werkzeug.utils import secure_filename
 from pyomo import environ as pe
 from pyomo.environ import *
 import numpy as np
-import xlsxwriter
 
 app = Flask(__name__)
 
@@ -516,7 +515,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                 s1.at[days[d-1], times[t-1]] = course_name + '\n' + '(' + room_name + ')'
    # บันทึก DataFrame เป็นไฟล์ Excel
     s1.to_excel("p1.xlsx")
-    
+
     return solution
 
 
