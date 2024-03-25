@@ -13,7 +13,6 @@ UPLOAD_FOLDER = '/home/nattapon/codes/AIPrototype2023/web_app/static/uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file):
-   # อ่านข้อมูล course
     course = pd.read_excel(course_file, engine='openpyxl')
     C = {}
     for idx, row in course.iterrows():
@@ -48,10 +47,9 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         if pd.notna(row['Name']):
             prof_id = len(P) + 1
             P[prof_id] = {'Name': row['Name'], 'course': {}, 'weight': []}
-        P[prof_id]['course'][index+1] = row['course']
-        P[prof_id]['weight'].append(list(row[2:]))
-    for prof_id in P:
-        P[prof_id]['weight'] = [[float(w) if pd.notna(w) else w for w in sublist] for sublist in P[prof_id]['weight']]
+            P[prof_id]['course'][index+1] = row['course']  # ย้ายไปใส่ในส่วน if statement
+            P[prof_id]['weight'].append(list(row[2:]))
+            P[prof_id]['weight'] = [[float(w) if pd.notna(w) else w for w in sublist] for sublist in P[prof_id]['weight']]
 
     # อ่านข้อมูล student
     student = pd.read_excel(student_file, engine='openpyxl')
@@ -61,8 +59,9 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
         if pd.notna(row['Major']):
             stud_id = len(S) + 1
             S[stud_id] = {'Major': row['Major'], 'Year': row['Year'], 'courseRegister': {}, 'Availability': []}
-        S[stud_id]['courseRegister'][index+1] = row['courseRegister']
-        S[stud_id]['Availability'].append(list(row[3:]))
+            S[stud_id]['courseRegister'][index+1] = row['courseRegister']
+            S[stud_id]['Availability'].append(list(row[3:]))
+
 
     #define
     D = { 1: 'Monday',
