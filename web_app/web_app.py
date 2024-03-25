@@ -499,9 +499,13 @@ def solve_ilp_endpoint():
         # เรียกใช้งานฟังก์ชันแก้ปัญหา
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
+        # สร้างไฟล์ ZIP และส่งกลับไปยังผู้ใช้
+        create_zip_file()
+        
         # ส่งผลลัพธ์ไปยังเทมเพลต solution.html
         return render_template("solution.html", solution=solution)
     return render_template("solution.html")
+
 
 @app.route('/download_solution/<filename>', methods=['GET'])
 def download_solution(filename):
