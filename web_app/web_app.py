@@ -451,7 +451,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
                 room_name = R[r]["Name"]
                 s1.at[days[d-1], times[t-1]] = course_name + '\n' + '(' + room_name + ')'
    # บันทึก DataFrame เป็นไฟล์ Excel
-    s1.to_excel("p1.xlsx")
+    s1.to_excel("s1.xlsx")
 
     return solution
 
