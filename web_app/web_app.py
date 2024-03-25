@@ -495,10 +495,11 @@ def solve_ilp_endpoint():
         professor_file = request.files['professor_file']
         student_file = request.files['student_file']
         
-        # เรียกใช้งานโมเดล Pyomo
+        # เรียกใช้งานฟังก์ชันแก้ปัญหา
         solution = solve_teaching_assignment_problem(course_file, room_file, professor_file, student_file)
         
-        return render_template("solution.html", solution=solution,)
+        # ส่งผลลัพธ์ไปยังเทมเพลต solution.html
+        return render_template("solution.html", solution=solution)
     return render_template("solution.html")
 
 @app.route('/download_solution/<filename>', methods=['GET'])
@@ -507,6 +508,7 @@ def download_solution(filename):
     solution_path = "/home/nattapon/codes/AIPrototype2023/web_app/static/" + filename
     # ส่งไฟล์กลับไปยังผู้ใช้
     return send_file(solution_path, as_attachment=True)
+
 
 
 @app.route('/download_file_1')

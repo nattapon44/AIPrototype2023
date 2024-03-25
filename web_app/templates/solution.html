@@ -14,13 +14,13 @@
         {% if solution %}
         <h2>Download Solution Files</h2>
         <ul>
-            <li><a href="{{ url_for('download_solution', filename='room_files.xlsx') }}">Room files</a></li>
-            <li><a href="{{ url_for('download_solution', filename='Professor files.xlsx') }}">Professor files</a></li>
-            <li><a href="{{ url_for('download_solution', filename='Student files.xlsx') }}">Student files</a></li>
-            <!-- เพิ่มไฟล์ที่ต้องการให้ดาวน์โหลดตามจำนวนที่ต้องการ -->
+            <li><a href="{{ url_for('download_solution', filename='room_files.xlsx') }}">Download Room files</a></li>
+            <li><a href="{{ url_for('download_solution', filename='Professor files.xlsx') }}">Download Professor files</a></li>
+            <li><a href="{{ url_for('download_solution', filename='Student files.xlsx') }}">Download Student files</a></li>
+            <!-- เพิ่มลิงก์หรือปุ่มสำหรับไฟล์ solution ที่ต้องการ -->
         </ul>
         {% endif %}
-    </section>
+    </section>    
     <footer>
         <p>A Mathematical Model for Course Schedule at Department of Statistics, Faculty of Science, Khon Kaen University</p>
     </footer>
