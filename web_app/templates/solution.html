@@ -11,7 +11,6 @@
         <h1>Solution</h1>
     </header>
     <section class="downloadfile">
-        {% if solution %}
         <h2>Download Solution Files</h2>
         <ul>
             <li><a href="{{ url_for('download_all_files') }}">Download All Files as ZIP</a></li>
@@ -27,7 +26,6 @@
             <li><a href="{{ url_for('download_solution', filename='s1.xlsx') }}">Download s1.xlsx</a></li>
             <!-- เพิ่มลิงก์สำหรับไฟล์อื่นๆ ตามต้องการ -->
         </ul>
-        {% endif %}
 
         <a href="{{ url_for ('home') }}" class="back-button">Back to Home</a>
     </section>
