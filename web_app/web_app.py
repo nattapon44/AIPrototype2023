@@ -511,20 +511,23 @@ def download_solution(filename):
     return send_file(solution_path, as_attachment=True)
 
 import zipfile
+import os
 
 # สร้างไฟล์ ZIP จากไฟล์แต่ละไฟล์ที่ต้องการรวมเข้าด้วยกัน
 def create_zip_file():
-    with zipfile.ZipFile('all_files.zip', 'w') as zipf:
-        zipf.write('r1.xlsx', arcname='r1.xlsx')
-        zipf.write('r2.xlsx', arcname='r2.xlsx')
-        zipf.write('r3.xlsx', arcname='r3.xlsx')
-        zipf.write('r4.xlsx', arcname='r4.xlsx')
-        zipf.write('r5.xlsx', arcname='r5.xlsx')
-        zipf.write('r6.xlsx', arcname='r6.xlsx')
-        zipf.write('p1.xlsx', arcname='p1.xlsx')
-        zipf.write('p2.xlsx', arcname='p2.xlsx')
-        zipf.write('p3.xlsx', arcname='p3.xlsx')
-        zipf.write('s1.xlsx', arcname='s1.xlsx')
+    # ตรวจสอบว่าไฟล์ ZIP มีอยู่แล้วหรือไม่
+    if not os.path.exists('all_files.zip'):
+        with zipfile.ZipFile('all_files.zip', 'w') as zipf:
+            zipf.write('r1.xlsx', arcname='r1.xlsx')
+            zipf.write('r2.xlsx', arcname='r2.xlsx')
+            zipf.write('r3.xlsx', arcname='r3.xlsx')
+            zipf.write('r4.xlsx', arcname='r4.xlsx')
+            zipf.write('r5.xlsx', arcname='r5.xlsx')
+            zipf.write('r6.xlsx', arcname='r6.xlsx')
+            zipf.write('p1.xlsx', arcname='p1.xlsx')
+            zipf.write('p2.xlsx', arcname='p2.xlsx')
+            zipf.write('p3.xlsx', arcname='p3.xlsx')
+            zipf.write('s1.xlsx', arcname='s1.xlsx')
 
 # สร้างลิงก์สำหรับดาวน์โหลดไฟล์ ZIP ที่สร้างขึ้น
 @app.route('/download_all_files')
