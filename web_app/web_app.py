@@ -505,10 +505,9 @@ def solve_ilp_endpoint():
 @app.route('/download_solution/<filename>', methods=['GET'])
 def download_solution(filename):
     # สร้าง path ไปยังไฟล์ solution ที่ต้องการให้ดาวน์โหลด
-    solution_path = "/home/nattapon/codes/AIPrototype2023/web_app/static/" + filename
+    solution_path = "/home/nattapon/codes/AIPrototype2023/web_app/static/solution/" + filename
     # ส่งไฟล์กลับไปยังผู้ใช้
     return send_file(solution_path, as_attachment=True)
-
 
 
 @app.route('/download_file_1')
