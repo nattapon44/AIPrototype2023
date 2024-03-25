@@ -340,29 +340,7 @@ def solve_teaching_assignment_problem(course_file, room_file, professor_file, st
     for v1 in list_of_v1:
         print("v_crdt({}, {}, {}, {}) = {}".format(v1[0], v1[1], v1[2], v1[3], v1[4]))
 
-    list_of_v1 = []
-    for c in C:
-        for r in R:
-            for d in D:
-                for t in T:
-                    val_v = pe.value(model.v_crdt[c, r, d, t])
-                    if val_v != 0:
-                        list_of_v1.append((c, r, d, t, int(val_v)))
-    # พิมพ์ list_of_x1
-    for v1 in list_of_v1:
-        print("v_crdt({}, {}, {}, {}) = {}".format(v1[0], v1[1], v1[2], v1[3], v1[4]))
-
-    list_of_maxv1 = []
-    for c in C:
-        for r in R:
-            for d in D:
-                val_maxv1 = pe.value(model.max_Vcrd[c, r, d])
-                if val_maxv1 != 0:
-                    list_of_maxv1.append((c, r, d, int(val_maxv1)))
-    # พิมพ์ list_of_maxv1
-    for maxv1 in list_of_maxv1:
-        print("maxv_crd({}, {}, {}) = {}".format(maxv1[0], maxv1[1], maxv1[2], maxv1[3]))
-
+    
     # สร้างชื่อวันและเวลา
     days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     times = pd.date_range('08:30', '17:30', freq='30T').strftime('%H:%M')
